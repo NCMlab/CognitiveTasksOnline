@@ -76,7 +76,7 @@ endExpNow = False  # flag for 'escape' or other condition => quit the exp
 
 # Setup the Window
 win = visual.Window(
-    size=[1000, 800], fullscr=True, screen=0,
+    size=[1000, 800], fullscr=False, screen=0,
     allowGUI=False, allowStencil=False,
     monitor='testMonitor', color=BGColor, colorSpace='rgb',
     blendMode='avg', useFBO=True, units='height')
@@ -494,6 +494,7 @@ for thisPractice in Practice:
         if mouse.status == STARTED:  # only update if started and not stopped!
             buttons = mouse.getPressed()
             if buttons != prevButtonState:  # button state changed?
+                print("Mouse")
                 prevButtonState = buttons
                 if sum(buttons) > 0:  # state changed to a new click
                     # check if the mouse was inside our 'clickable' objects
