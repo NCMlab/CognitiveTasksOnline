@@ -59,6 +59,7 @@ ColWidth = 100
 ButtonHeight = -1
 ButtonWidth = 80
 LabelOffset = 10
+BoxVerticalShift = 12
 # Allow flexible number of rows
 NRows =  12
 # Create a list of what pixel each row is to be set to
@@ -141,7 +142,7 @@ class Mywin(wx.Frame):
       self.btnRMemC6 = wx.Button(self.panel,-1,"-- R --", pos = (ColPixel[5],CurrentRow), size = ((ButtonWidth, ButtonHeight))) 
       self.btnRMemC6.Bind(wx.EVT_BUTTON,self.OnClickedRMemC6) 
       # Box
-      RowMemBoxR2 = wx.StaticBox(self.panel, -1, size = ((ColWidth+5)*NColForBox,RowWidth-5), pos = (ColPixel[0],CurrentRow-5))
+      RowMemBoxR2 = wx.StaticBox(self.panel, -1, size = ((ColWidth+5)*NColForBox, RowWidth-5), pos = (ColPixel[0],CurrentRow-BoxVerticalShift))
       # Checkboxes
       self.cbRMemC2 = wx.CheckBox(self.panel, -1, label = "", pos = (ColPixel[1] + ButtonWidth+5,CurrentRow))
       self.cbRMemC5 = wx.CheckBox(self.panel, -1, label = "", pos = (ColPixel[4] + ButtonWidth+5,CurrentRow))
@@ -158,7 +159,7 @@ class Mywin(wx.Frame):
       self.btnR9C3 = wx.Button(self.panel,-1,"Matrices", pos = (ColPixel[2],CurrentRow), size = ((ButtonWidth, ButtonHeight))) 
       self.btnR9C3.Bind(wx.EVT_BUTTON,self.OnClickedR9C3) 
     # Box
-      Row9BoxR2 = wx.StaticBox(self.panel, -1, size = ((ColWidth+5)*NColForBox,RowWidth-5), pos = (ColPixel[0],CurrentRow-5))
+      Row9BoxR2 = wx.StaticBox(self.panel, -1, size = ((ColWidth+5)*NColForBox,RowWidth-5), pos = (ColPixel[0],CurrentRow-BoxVerticalShift))
       # Checkboxes
       self.cbR9C2 = wx.CheckBox(self.panel, -1, label = "", pos = (ColPixel[1] + ButtonWidth+5,CurrentRow))
       self.cbR9C3 = wx.CheckBox(self.panel, -1, label = "", pos = (ColPixel[2] + ButtonWidth+5,CurrentRow))
@@ -184,9 +185,9 @@ class Mywin(wx.Frame):
       self.btnR5C5a.Bind(wx.EVT_BUTTON, self.OnClickedDMSCapEnter)
       self.btnR5C5b.Bind(wx.EVT_BUTTON, self.LoadDMSCapacity)
       # Make a box around the Capacity text and entry buttons
-      Row5BoxR5 = wx.StaticBox(self.panel, -1, size = ((ColWidth*2),RowWidth-5), pos = (ColPixel[4],CurrentRow-5))
+      Row5BoxR5 = wx.StaticBox(self.panel, -1, size = ((ColWidth*2 - 12),RowWidth-5), pos = (ColPixel[4]+4,CurrentRow-BoxVerticalShift))
       # Box
-      Row1BoxR5 = wx.StaticBox(self.panel, -1, size = ((ColWidth+5)*NColForBox,RowWidth-5), pos = (ColPixel[0],CurrentRow-5))
+      Row1BoxR5 = wx.StaticBox(self.panel, -1, size = ((ColWidth+5)*NColForBox,RowWidth-5), pos = (ColPixel[0],CurrentRow-BoxVerticalShift))
       # Checkboxes
       self.cbR5C2 = wx.CheckBox(self.panel, -1, label = "", pos = (ColPixel[2] + ButtonWidth+5,CurrentRow))      
       self.cbR5C3 = wx.CheckBox(self.panel, -1, label = "", pos = (ColPixel[3] + ButtonWidth+5,CurrentRow))
@@ -204,7 +205,7 @@ class Mywin(wx.Frame):
       self.btnR1C4 = wx.Button(self.panel,-1,"ColorWord", pos = (ColPixel[3],CurrentRow), size = ((ButtonWidth, ButtonHeight))) 
       self.btnR1C4.Bind(wx.EVT_BUTTON,self.OnClickedR1C4)
       # Box
-      Row1Box = wx.StaticBox(self.panel, -1, size = ((ColWidth+5)*NColForBox,RowWidth-5), pos = (ColPixel[0],CurrentRow-5))
+      Row1Box = wx.StaticBox(self.panel, -1, size = ((ColWidth+5)*NColForBox,RowWidth-5), pos = (ColPixel[0],CurrentRow-BoxVerticalShift))
       # Checkboxes
       self.cbR1C2 = wx.CheckBox(self.panel, -1, label = "", pos = (ColPixel[1] + ButtonWidth+5,CurrentRow))
       self.cbR1C3 = wx.CheckBox(self.panel, -1, label = "", pos = (ColPixel[2] + ButtonWidth+5,CurrentRow))
@@ -217,7 +218,7 @@ class Mywin(wx.Frame):
       self.btnR2C2 = wx.Button(self.panel,-1,"WCST", pos = (ColPixel[1],CurrentRow), size = ((ButtonWidth, ButtonHeight))) 
       self.btnR2C2.Bind(wx.EVT_BUTTON,self.OnClickedR2C2) 
       # Box
-      Row1BoxR2 = wx.StaticBox(self.panel, -1, size = ((ColWidth+5)*NColForBox,RowWidth-5), pos = (ColPixel[0],CurrentRow-5))
+      Row1BoxR2 = wx.StaticBox(self.panel, -1, size = ((ColWidth+5)*NColForBox,RowWidth-5), pos = (ColPixel[0],CurrentRow-BoxVerticalShift))
       # Checkboxes
       self.cbR2C2 = wx.CheckBox(self.panel, -1, label = "", pos = (ColPixel[1] + ButtonWidth+5,CurrentRow))
 
@@ -240,11 +241,14 @@ class Mywin(wx.Frame):
       self.btnR3C5b = wx.Button(self.panel,-1,"Load", pos = (ColPixel[5]+40,CurrentRow), size = ((ButtonWidth/2+5, ButtonHeight))) 
       self.btnR3C5a.Bind(wx.EVT_BUTTON, self.OnClickedVSTMCapEnter)
       self.btnR3C5b.Bind(wx.EVT_BUTTON, self.LoadVSTMCapacity)
-      # Make a box around the Capacity text and entry buttons
-      Row3BoxR5 = wx.StaticBox(self.panel, -1, size = ((ColWidth*2),RowWidth-5), pos = (ColPixel[3],CurrentRow-5))
+
+    # Make a box around the Capacity text and entry buttons
+      Row3BoxR5 = wx.StaticBox(self.panel, -1, size = ((ColWidth*2 - 12),RowWidth-5), pos = (ColPixel[4]+4,CurrentRow-BoxVerticalShift))
       # Box
-      Row1BoxR3 = wx.StaticBox(self.panel, -1, size = ((ColWidth+5)*NColForBox,RowWidth-5), pos = (ColPixel[0],CurrentRow-5))
-      # Checkboxes
+      Row1BoxR5 = wx.StaticBox(self.panel, -1, size = ((ColWidth+5)*NColForBox,RowWidth-5), pos = (ColPixel[0],CurrentRow-BoxVerticalShift))
+
+
+    # Checkboxes
       self.cbR3C2 = wx.CheckBox(self.panel, -1, label = "", pos = (ColPixel[2] + ButtonWidth+5,CurrentRow))
       self.cbR3C3 = wx.CheckBox(self.panel, -1, label = "", pos = (ColPixel[3] + ButtonWidth+5,CurrentRow))
       self.cbR3C4 = wx.CheckBox(self.panel, -1, label = "", pos = (ColPixel[6] + ButtonWidth+5,CurrentRow))
@@ -256,7 +260,7 @@ class Mywin(wx.Frame):
       self.btnR6C2 = wx.Button(self.panel,-1,"Antonyms", pos = (ColPixel[1],CurrentRow), size = ((ButtonWidth, ButtonHeight))) 
       self.btnR6C2.Bind(wx.EVT_BUTTON,self.OnClickedR6C2) 
       # Box
-      Row6BoxR2 = wx.StaticBox(self.panel, -1, size = ((ColWidth+5)*NColForBox,RowWidth-5), pos = (ColPixel[0],CurrentRow-5))
+      Row6BoxR2 = wx.StaticBox(self.panel, -1, size = ((ColWidth+5)*NColForBox,RowWidth-5), pos = (ColPixel[0],CurrentRow-BoxVerticalShift))
       # Checkboxes
       self.cbR6C2 = wx.CheckBox(self.panel, -1, label = "", pos = (ColPixel[1] + ButtonWidth+5,CurrentRow))
       # Buttons
@@ -282,7 +286,7 @@ class Mywin(wx.Frame):
       self.cbR10C4 = wx.CheckBox(self.panel, -1, label = "", pos = (ColPixel[3] + ButtonWidth+5,CurrentRow))      
       self.cbR10C5 = wx.CheckBox(self.panel, -1, label = "", pos = (ColPixel[4] + ButtonWidth+5,CurrentRow))      
       # Box around buttons
-      Row1BoxR10 = wx.StaticBox(self.panel, -1, size = ((ColWidth+5)*NColForBox,RowWidth-5), pos = (ColPixel[0],CurrentRow-5))
+      Row1BoxR10 = wx.StaticBox(self.panel, -1, size = ((ColWidth+5)*NColForBox,RowWidth-5), pos = (ColPixel[0],CurrentRow-BoxVerticalShift))
 
 # #### Row 
       CurrentRow = RowPixel[9]
@@ -293,7 +297,7 @@ class Mywin(wx.Frame):
       self.btnR7C3 = wx.Button(self.panel,-1,"Backward", pos = (ColPixel[2],CurrentRow), size = ((ButtonWidth, ButtonHeight))) 
       self.btnR7C3.Bind(wx.EVT_BUTTON,self.OnClickedR7C3) 
     # Box
-      Row7BoxR2 = wx.StaticBox(self.panel, -1, size = ((ColWidth+5)*NColForBox,RowWidth-5), pos = (ColPixel[0],CurrentRow-5))
+      Row7BoxR2 = wx.StaticBox(self.panel, -1, size = ((ColWidth+5)*NColForBox,RowWidth-5), pos = (ColPixel[0],CurrentRow-BoxVerticalShift))
       # Checkboxes
       self.cbR7C2 = wx.CheckBox(self.panel, -1, label = "", pos = (ColPixel[1] + ButtonWidth+5,CurrentRow))
       self.cbR7C3 = wx.CheckBox(self.panel, -1, label = "", pos = (ColPixel[2] + ButtonWidth+5,CurrentRow))
@@ -305,7 +309,7 @@ class Mywin(wx.Frame):
       self.btnR8C2 = wx.Button(self.panel,-1,"Patt. Comp", pos = (ColPixel[1],CurrentRow), size = ((ButtonWidth, ButtonHeight))) 
       self.btnR8C2.Bind(wx.EVT_BUTTON,self.OnClickedR8C2) 
     # Box
-      Row8BoxR2 = wx.StaticBox(self.panel, -1, size = ((ColWidth+5)*NColForBox,RowWidth-5), pos = (ColPixel[0],CurrentRow-5))
+      Row8BoxR2 = wx.StaticBox(self.panel, -1, size = ((ColWidth+5)*NColForBox,RowWidth-5), pos = (ColPixel[0],CurrentRow-BoxVerticalShift))
       # Checkboxes
       self.cbR8C2 = wx.CheckBox(self.panel, -1, label = "", pos = (ColPixel[1] + ButtonWidth+5,CurrentRow))
       
@@ -316,6 +320,7 @@ class Mywin(wx.Frame):
       
       self.Centre() 
       self.Show() 
+      # self.ShowFullScreen(True)
       self.Fit()  
 
    def TESTGUI(self, event):
