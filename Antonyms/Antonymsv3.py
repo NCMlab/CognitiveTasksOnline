@@ -76,7 +76,7 @@ endExpNow = False  # flag for 'escape' or other condition => quit the exp
 
 # Setup the Window
 win = visual.Window(
-    size=[1000, 800], fullscr=True, screen=0,
+    size=[1000, 800], fullscr=False, screen=0,
     allowGUI=False, allowStencil=False,
     monitor='testMonitor', color=BGColor, colorSpace='rgb',
     blendMode='avg', useFBO=True, units='height')
@@ -498,7 +498,7 @@ for thisPractice in Practice:
                 prevButtonState = buttons
                 if sum(buttons) > 0:  # state changed to a new click
                     # check if the mouse was inside our 'clickable' objects
-                    for obj in [Resp1,Resp2,Resp3,Resp4]:
+                    for obj in [Resp1,Resp2,Resp3,Resp4,Resp1Box,Resp2Box,Resp3Box,Resp4Box]:
                         if obj.contains(mouse):
                             gotValidClick = True
                             mouse.clicked_name.append(obj.name)
@@ -597,7 +597,7 @@ for thisPractice in Practice:
     if sum(buttons):
         resp.rt = resp.clock.getTime()
         # check if the mouse was inside our 'clickable' objects
-        for obj in [Resp1,Resp2,Resp3,Resp4]:
+        for obj in [Resp1,Resp2,Resp3,Resp4,Resp1Box,Resp2Box,Resp3Box,Resp4Box]:
             if obj.contains(mouse):
                 gotValidClick = True
                 mouse.clicked_name.append(obj.name)
@@ -979,7 +979,7 @@ for thisTrial in trials:
                 if sum(buttons) > 0:  # state changed to a new click
                     resp.rt = resp.clock.getTime()
                     # check if the mouse was inside our 'clickable' objects
-                    for obj in [Resp1,Resp2,Resp3,Resp4]:
+                    for obj in [Resp1,Resp2,Resp3,Resp4,Resp1Box,Resp2Box,Resp3Box,Resp4Box]:
                         if obj.contains(mouse):
                             gotValidClick = True
                             mouse.clicked_name.append(obj.name)
@@ -1079,7 +1079,7 @@ for thisTrial in trials:
     # store data for trials (TrialHandler)
     if sum(buttons):
         # check if the mouse was inside our 'clickable' objects
-        for obj in [Resp1,Resp2,Resp3,Resp4]:
+        for obj in [Resp1,Resp2,Resp3,Resp4,Resp1Box,Resp2Box,Resp3Box,Resp4Box]:
             if obj.contains(mouse):
                 gotValidClick = True
                 mouse.clicked_name.append(obj.name)
