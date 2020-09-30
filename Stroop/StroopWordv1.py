@@ -138,7 +138,15 @@ thanksText = visual.TextStim(win=win, name='thanksText',
     pos=[0, 0], height=InstrFontSize, wrapWidth=None, ori=0, 
     color=FontColor, colorSpace='rgb', opacity=1,
     depth=0.0);
-
+    
+image = visual.ImageStim(
+    win=win,
+    name='image', 
+    image='StroopColorsKeyboard.png', mask=None,
+    ori=0, pos=(0, -350), size=(400,120),
+    color=[1,1,1], colorSpace='rgb', opacity=1,
+    flipHoriz=False, flipVert=False,
+    texRes=128, interpolate=True, depth=0.0)    
 # Create some handy timers
 globalClock = core.Clock()  # to track the time since experiment started
 routineTimer = core.CountdownTimer()  # to track time remaining of each (non-slip) routine 
@@ -241,13 +249,14 @@ for thisPractice in practice:
     word.setText(TextColor)
     resp = event.BuilderKeyResponse()
     # keep track of which components have finished
-    trialComponents = [word, resp]
+    trialComponents = [word, resp, image]
     for thisComponent in trialComponents:
         if hasattr(thisComponent, 'status'):
             thisComponent.status = NOT_STARTED
     
     # -------Start Routine "trial"-------
     while continueRoutine:
+        image.setAutoDraw(True)
         # get current time
         t = trialClock.getTime()
         frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
@@ -496,13 +505,14 @@ for thisTrial in trials:
     word.setText(Word)
     resp = event.BuilderKeyResponse()
     # keep track of which components have finished
-    trialComponents = [word, resp]
+    trialComponents = [word, resp, image]
     for thisComponent in trialComponents:
         if hasattr(thisComponent, 'status'):
             thisComponent.status = NOT_STARTED
     
     # -------Start Routine "trial"-------
     while continueRoutine:
+        image.setAutoDraw(True)
         # get current time
         t = trialClock.getTime()
         frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
