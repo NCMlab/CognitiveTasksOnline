@@ -94,7 +94,7 @@ else:
 # Initialize components for Routine "Instructions"
 InstructionsClock = core.Clock()
 text_2 = visual.TextStim(win=win, name='text_2',
-    text=u'You will be presented with two figures. \nIf the figures are the same, press "left". \nIf they are different, press "right".The sets of images change quickly so please respond as quickly and accurately as possible.\n\nPress any key to begin.',
+    text=u'You will be presented with two figures. \nDetermine tf the figures are the same, press "left" for yes, press "right" for no.The sets of images change quickly so please respond as quickly and accurately as possible.\n\nPress any key to begin.',
     font=u'Arial',
     pos=(0, 0), height=40, wrapWidth=800, ori=0, 
     color=FontColor, colorSpace='rgb', opacity=1,
@@ -137,7 +137,16 @@ Different = visual.TextStim(win=win, name='Different',
     pos=(200, -200), height=40, wrapWidth=None, ori=0, 
     color=FontColor, colorSpace='rgb', opacity=1,
     depth=-4.0);
-
+    
+image = visual.ImageStim(
+    win=win,
+    name='image', 
+    image='../GUI/YesNoKeyboard.png', mask=None,
+    ori=0, pos=(0, -250), size=(250,170),
+    color=[1,1,1], colorSpace='rgb', opacity=1,
+    flipHoriz=False, flipVert=False,
+    texRes=128, interpolate=True, depth=0.0)    
+    
 # Initialize components for Routine "Feedback"
 FeedbackClock = core.Clock()
 msg=''
@@ -290,7 +299,7 @@ continueRoutine = True
 routineTimer.add(3.000000)
 # update component parameters for each repeat
 # keep track of which components have finished
-PracticeTextComponents = [text_4]
+PracticeTextComponents = [text_4, image]
 for thisComponent in PracticeTextComponents:
     if hasattr(thisComponent, 'status'):
         thisComponent.status = NOT_STARTED
@@ -347,6 +356,7 @@ if thisPractice != None:
         exec('{} = thisPractice[paramName]'.format(paramName))
 
 for thisPractice in Practice:
+    image.setAutoDraw(True)
     currentLoop = Practice
     # abbreviate parameter names if possible (e.g. rgb = thisPractice.rgb)
     if thisPractice != None:
@@ -365,7 +375,7 @@ for thisPractice in Practice:
     
     resp = event.BuilderKeyResponse()
     # keep track of which components have finished
-    trialComponents = [imageL, imageR, resp, Same, Different]
+    trialComponents = [imageL, imageR, resp, image]
     for thisComponent in trialComponents:
         if hasattr(thisComponent, 'status'):
             thisComponent.status = NOT_STARTED
@@ -426,25 +436,25 @@ for thisPractice in Practice:
                 # a response ends the routine
                 continueRoutine = False
         
-        # *Same* updates
-        if t >= 0.0 and Same.status == NOT_STARTED:
-            # keep track of start time/frame for later
-            Same.tStart = t
-            Same.frameNStart = frameN  # exact frame index
-            Same.setAutoDraw(True)
-        frameRemains = 0.0 + 3- win.monitorFramePeriod * 0.75  # most of one frame period left
-        if Same.status == STARTED and t >= frameRemains:
-            Same.setAutoDraw(False)
-        
-        # *DIfferent* updates
-        if t >= 0.0 and Different.status == NOT_STARTED:
-            # keep track of start time/frame for later
-            Different.tStart = t
-            Different.frameNStart = frameN  # exact frame index
-            Different.setAutoDraw(True)
-        frameRemains = 0.0 + 3- win.monitorFramePeriod * 0.75  # most of one frame period left
-        if Different.status == STARTED and t >= frameRemains:
-            Different.setAutoDraw(False)
+#        # *Same* updates
+#        if t >= 0.0 and Same.status == NOT_STARTED:
+#            # keep track of start time/frame for later
+#            Same.tStart = t
+#            Same.frameNStart = frameN  # exact frame index
+#            Same.setAutoDraw(True)
+#        frameRemains = 0.0 + 3- win.monitorFramePeriod * 0.75  # most of one frame period left
+#        if Same.status == STARTED and t >= frameRemains:
+#            Same.setAutoDraw(False)
+#        
+#        # *DIfferent* updates
+#        if t >= 0.0 and Different.status == NOT_STARTED:
+#            # keep track of start time/frame for later
+#            Different.tStart = t
+#            Different.frameNStart = frameN  # exact frame index
+#            Different.setAutoDraw(True)
+#        frameRemains = 0.0 + 3- win.monitorFramePeriod * 0.75  # most of one frame period left
+#        if Different.status == STARTED and t >= frameRemains:
+#            Different.setAutoDraw(False)
         
         # check if all components have finished
         if not continueRoutine:  # a component has requested a forced-end of Routine
@@ -768,6 +778,7 @@ if thisRun != None:
 
 for thisRun in Run:
     currentLoop = Run
+    image.setAutoDraw(True)
     # abbreviate parameter names if possible (e.g. rgb = thisRun.rgb)
     if thisRun != None:
         for paramName in thisRun.keys():
@@ -784,7 +795,7 @@ for thisRun in Run:
     imageR.setImage(os.path.join(BaseDir,Figure2))
     resp = event.BuilderKeyResponse()
     # keep track of which components have finished
-    trialComponents = [imageL, imageR, resp, Same, Different]
+    trialComponents = [imageL, imageR, resp, image]
     for thisComponent in trialComponents:
         if hasattr(thisComponent, 'status'):
             thisComponent.status = NOT_STARTED
@@ -845,25 +856,25 @@ for thisRun in Run:
                 # a response ends the routine
                 continueRoutine = False
         
-        # *Same* updates
-        if t >= 0.0 and Same.status == NOT_STARTED:
-            # keep track of start time/frame for later
-            Same.tStart = t
-            Same.frameNStart = frameN  # exact frame index
-            Same.setAutoDraw(True)
-        frameRemains = 0.0 + 3- win.monitorFramePeriod * 0.75  # most of one frame period left
-        if Same.status == STARTED and t >= frameRemains:
-            Same.setAutoDraw(False)
-        
-        # *DIfferent* updates
-        if t >= 0.0 and Different.status == NOT_STARTED:
-            # keep track of start time/frame for later
-            Different.tStart = t
-            Different.frameNStart = frameN  # exact frame index
-            Different.setAutoDraw(True)
-        frameRemains = 0.0 + 3- win.monitorFramePeriod * 0.75  # most of one frame period left
-        if Different.status == STARTED and t >= frameRemains:
-            Different.setAutoDraw(False)
+#        # *Same* updates
+#        if t >= 0.0 and Same.status == NOT_STARTED:
+#            # keep track of start time/frame for later
+#            Same.tStart = t
+#            Same.frameNStart = frameN  # exact frame index
+#            Same.setAutoDraw(True)
+#        frameRemains = 0.0 + 3- win.monitorFramePeriod * 0.75  # most of one frame period left
+#        if Same.status == STARTED and t >= frameRemains:
+#            Same.setAutoDraw(False)
+#        
+#        # *DIfferent* updates
+#        if t >= 0.0 and Different.status == NOT_STARTED:
+#            # keep track of start time/frame for later
+#            Different.tStart = t
+#            Different.frameNStart = frameN  # exact frame index
+#            Different.setAutoDraw(True)
+#        frameRemains = 0.0 + 3- win.monitorFramePeriod * 0.75  # most of one frame period left
+#        if Different.status == STARTED and t >= frameRemains:
+#            Different.setAutoDraw(False)
         
         # check if all components have finished
         if not continueRoutine:  # a component has requested a forced-end of Routine

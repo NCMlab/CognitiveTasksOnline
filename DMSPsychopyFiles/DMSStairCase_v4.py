@@ -245,6 +245,16 @@ textThankyou = visual.TextStim(win=win, name='textThankyou',
     units=FontSizeUnits, pos=(0, 0), height=FontSize, wrapWidth=None, ori=0, 
     color=FontColor, colorSpace='rgb', opacity=1,
     depth=0.0);        
+    
+image = visual.ImageStim(
+    win=win,
+    name='image', 
+    image='../GUI/YesNoKeyboard.png', mask=None,
+    ori=0, pos=(0, -250), size=(250,170),
+    color=[1,1,1], colorSpace='rgb', opacity=1,
+    flipHoriz=False, flipVert=False,
+    texRes=128, interpolate=True, depth=0.0)        
+
 # Number of trials in the file
 
 # Each trial is extracted like this.
@@ -418,6 +428,8 @@ for thisStep in staircase:
     core.wait(RetOnTime)
     
     textProbe.draw()
+    # Put the keyboard button image on the screen
+    image.setAutoDraw(True)
     win.flip()
     trialClock.reset()
     
@@ -462,6 +474,8 @@ for thisStep in staircase:
 
     # Add an ITI between trials
     textITI.draw()
+    # Remove the keyboard button image on the screen
+    image.setAutoDraw(False)
     win.flip()
     core.wait(ITITime)
     TrialCount += 1

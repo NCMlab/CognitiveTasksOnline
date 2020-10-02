@@ -312,6 +312,16 @@ textThankyou = visual.TextStim(win=win, name='textThankyou',
     color=FontColor, colorSpace='rgb', opacity=1,
     depth=0.0);
 
+
+image = visual.ImageStim(
+    win=win,
+    name='image', 
+    image='../GUI/YesNoKeyboard.png', mask=None,
+    ori=0, pos=(0, -250), size=(250,170),
+    color=[1,1,1], colorSpace='rgb', opacity=1,
+    flipHoriz=False, flipVert=False,
+    texRes=128, interpolate=True, depth=0.0)    
+    
 # Create some handy timers
 globalClock = core.Clock()  # to track the time since experiment started
 routineTimer = core.CountdownTimer()  # to track time remaining of each (non-slip) routine 
@@ -586,7 +596,7 @@ for thisBlock in Blocks:
         textProbe.setText(probe)
         resp = event.BuilderKeyResponse()
         # keep track of which components have finished
-        trialComponents = [textTL, textTM, textTR, textCL, textCM, textCR, textBL, textBM, textBR, textDelay, textProbe, textITI, resp]
+        trialComponents = [textTL, textTM, textTR, textCL, textCM, textCR, textBL, textBM, textBR, textDelay, textProbe, textITI, resp, image]
         for thisComponent in trialComponents:
             if hasattr(thisComponent, 'status'):
                 thisComponent.status = NOT_STARTED
@@ -704,6 +714,7 @@ for thisBlock in Blocks:
                 textProbe.tStart = t
                 textProbe.frameNStart = frameN  # exact frame index
                 textProbe.setAutoDraw(True)
+                image.setAutoDraw(True)
             frameRemains = (StimOnTime+RetOnTime) + ProbeOnTime- win.monitorFramePeriod * 0.75  # most of one frame period left
             if textProbe.status == STARTED and t >= frameRemains:
                 textProbe.setAutoDraw(False)
