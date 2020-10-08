@@ -204,6 +204,15 @@ textThankyou = visual.TextStim(win=win, name='textThankyou',
     color=FontColor, colorSpace='rgb', opacity=1,
     depth=0.0);    
     
+image = visual.ImageStim(
+    win=win,
+    name='image', 
+    image='../GUI/YesNoKeyboard.png', mask=None,
+    ori=0, pos=(0, -380), size=(200,136),
+    color=[1,1,1], colorSpace='rgb', opacity=1,
+    flipHoriz=False, flipVert=False,
+    texRes=128, interpolate=True, depth=0.0)    
+    
 RunningClock = core.Clock()
 
 NLoads = GridCount**2
@@ -380,6 +389,7 @@ for thisStep in staircase:
         pass
 # Turn off the cross hair
     GreenCross.setAutoDraw(True)
+    image.setAutoDraw(True)
     # Put the probe dot on the screen
     win.flip()
     resp.clock.reset()
@@ -416,6 +426,7 @@ for thisStep in staircase:
         pass        
     # prepare the cross hair    
     GreenCross.setAutoDraw(False)
+    image.setAutoDraw(False)
     RedCross.setAutoDraw(True)
     # take the dot off the screen
     win.flip()

@@ -235,6 +235,15 @@ textThankyou = visual.TextStim(win=win, name='textThankyou',
     units=FontSizeUnits, pos=(0, 0), height=FontSize, wrapWidth=None, ori=0, 
     color=FontColor, colorSpace='rgb', opacity=1,
     depth=0.0);    
+
+image = visual.ImageStim(
+    win=win,
+    name='image', 
+    image='../GUI/YesNoKeyboard.png', mask=None,
+    ori=0, pos=(0, -380), size=(200,136),
+    color=[1,1,1], colorSpace='rgb', opacity=1,
+    flipHoriz=False, flipVert=False,
+    texRes=128, interpolate=True, depth=0.0)    
     
 RunningClock = core.Clock()
 
@@ -429,6 +438,7 @@ for thisBlock in Blocks:
     # Turn off the cross hair
         GreenCross.setAutoDraw(True)
         # Put the probe dot on the screen
+        image.setAutoDraw(True)
         win.flip()
         thisResp.clock.reset()
         # Start the probe timer
@@ -437,7 +447,7 @@ for thisBlock in Blocks:
         print(countDown.getTime())
         thisResp.keys = -99
         thisResp.rt = -99
-        # Changethis while loop to have a flag
+        # Change this while loop to have a flag
         # The flag is set to false if a response is made or if the timer elapses
         continueRoutine = True 
         while continueRoutine:
@@ -467,6 +477,7 @@ for thisBlock in Blocks:
                 continueRoutine = False
         
         GreenCross.setAutoDraw(False)
+        image.setAutoDraw(False)
         # Feedback period
         countDown.add(FeedbackTime)
         if thisResp.rt > -1:

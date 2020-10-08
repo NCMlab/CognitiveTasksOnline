@@ -211,7 +211,16 @@ textThankyou = visual.TextStim(win=win, name='textThankyou',
     units=VSTM_FontSizeUnits, pos=(0, 0), height=VSTM_FontSize, wrapWidth=None, ori=0, 
     color=VSTM_FontColor, colorSpace='rgb', opacity=1,
     depth=0.0);    
-    
+
+image = visual.ImageStim(
+    win=win,
+    name='image', 
+    image='../GUI/YesNoKeyboard.png', mask=None,
+    ori=0, pos=(0, -380), size=(200,136),
+    color=[1,1,1], colorSpace='rgb', opacity=1,
+    flipHoriz=False, flipVert=False,
+    texRes=128, interpolate=True, depth=0.0)   
+
 RunningClock = core.Clock()
 
 # For each block change the selection list 
@@ -433,6 +442,7 @@ for thisBlock in Blocks:
             pass
     # Turn off the cross hair
         GreenCross.setAutoDraw(True)
+        image.setAutoDraw(True)
         # Put the probe dot on the screen
         win.flip()
         thisResp.clock.reset()
@@ -472,6 +482,7 @@ for thisBlock in Blocks:
                 continueRoutine = False
         
         GreenCross.setAutoDraw(False)
+        image.setAutoDraw(False)
         RedCross.setAutoDraw(True)
         win.flip()
         while countDown.getTime() > 0:    
