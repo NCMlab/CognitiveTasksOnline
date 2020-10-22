@@ -1,1 +1,1 @@
-NeuropsychDataFolder = '/home/jason/CognitiveData'
+NeuropsychDataFolder = '/Users/jasonsteffener/Documents'
