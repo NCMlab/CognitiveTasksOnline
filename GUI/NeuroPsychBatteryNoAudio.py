@@ -264,10 +264,10 @@ class Mywin(wx.Frame):
       # Checkboxes
       self.cbR6C2 = wx.CheckBox(self.panel, -1, label = "", pos = (ColPixel[1] + ButtonWidth+5,CurrentRow))
       # Buttons
-      self.btnR6C3 = wx.Button(self.panel,-1,"Reading", pos = (ColPixel[2],CurrentRow), size = ((ButtonWidth, ButtonHeight))) 
-      self.btnR6C3.Bind(wx.EVT_BUTTON,self.OnClickedR6C3) 
+      # self.btnR6C3 = wx.Button(self.panel,-1,"Reading", pos = (ColPixel[2],CurrentRow), size = ((ButtonWidth, ButtonHeight))) 
+      # self.btnR6C3.Bind(wx.EVT_BUTTON,self.OnClickedR6C3) 
       # Checkboxes
-      self.cbR6C3 = wx.CheckBox(self.panel, -1, label = "", pos = (ColPixel[2] + ButtonWidth+5,CurrentRow))
+      # self.cbR6C3 = wx.CheckBox(self.panel, -1, label = "", pos = (ColPixel[2] + ButtonWidth+5,CurrentRow))
 
 # ### Row
       CurrentRow = RowPixel[8]
