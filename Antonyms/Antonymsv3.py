@@ -76,7 +76,7 @@ endExpNow = False  # flag for 'escape' or other condition => quit the exp
 
 # Setup the Window
 win = visual.Window(
-    size=[1000, 800], fullscr=False, screen=0,
+    size=[1000, 800], fullscr=True, screen=0,
     allowGUI=False, allowStencil=False,
     monitor='testMonitor', color=BGColor, colorSpace='rgb',
     blendMode='avg', useFBO=True, units='height')
@@ -405,7 +405,7 @@ if thisPractice != None:
         exec('{} = thisPractice[paramName]'.format(paramName))
 
 for thisPractice in Practice:
-    ButtonPressFlag = False
+    #ButtonPressFlag = False
     currentLoop = Practice
     # abbreviate parameter names if possible (e.g. rgb = thisPractice.rgb)
     if thisPractice != None:
@@ -472,7 +472,7 @@ for thisPractice in Practice:
                 endExpNow = True
             if len(theseKeys) > 0:  # at least one key was pressed
                 # A button press has occured
-                ButtonPressFlag = True
+                # ButtonPressFlag = True
                 print('=============')
                 resp.keys = theseKeys[-1]  # just the last key pressed
                 print('Button pressed: %s'%(resp.keys))
@@ -494,7 +494,10 @@ for thisPractice in Practice:
         if mouse.status == STARTED:  # only update if started and not stopped!
             buttons = mouse.getPressed()
             if buttons != prevButtonState:  # button state changed?
+                # ButtonPressFlag = True
+                print('=============')
                 print("Mouse")
+                resp.rt = resp.clock.getTime()
                 prevButtonState = buttons
                 if sum(buttons) > 0:  # state changed to a new click
                     # check if the mouse was inside our 'clickable' objects
@@ -504,6 +507,12 @@ for thisPractice in Practice:
                             mouse.clicked_name.append(obj.name)
                             CurrentResponse = obj.name
                             print('Mouse pressed: %s'%(CurrentResponse))
+                            print("The correct response is: %s"%(str(Corr)))
+                            if str(Corr) in CurrentResponse:
+                                resp.corr = 1
+                            else:
+                                resp.corr = 0
+                            print(resp.corr)
                     if gotValidClick:  # abort routine on response
                         continueRoutine = False
                 
@@ -625,12 +634,15 @@ for thisPractice in Practice:
     # Check whether the mouse response is correct or not
     # No response has been recorded yet.
     # Then lets assume that a mouse click has been performed
-
-    if not ButtonPressFlag: 
-        if (CurrentResponse[-1] == str(Corr)) or (CurrentResponse[-1] == Corr):
-            resp.corr = 1
-        else:
-            resp.corr = 0
+    print("Current Response is: %s"%(CurrentResponse))
+    print("Correct answer is %s"%(str(Corr)))
+    print((str(Corr) in CurrentResponse))
+    # print(ButtonPressFlag)
+    # if not ButtonPressFlag: 
+    if (CurrentResponse[-1] == str(Corr)) or (CurrentResponse[-1] == Corr) or (str(Corr) in CurrentResponse):
+        resp.corr = 1
+    else:
+        resp.corr = 0
     # store data for Practice (TrialHandler)
     Practice.addData('resp.keys',resp.keys)
     Practice.addData('resp.corr', resp.corr)
@@ -788,7 +800,7 @@ while continueRoutine:
             endExpNow = True
         if len(theseKeys) > 0:  # at least one key was pressed
             # A button press has occured
-            ButtonPressFlag = True
+            # ButtonPressFlag = True
             key_resp_2.keys = theseKeys[-1]  # just the last key pressed
             key_resp_2.rt = key_resp_2.clock.getTime()
             # a response ends the routine
@@ -890,7 +902,7 @@ if thisTrial != None:
         exec('{} = thisTrial[paramName]'.format(paramName))
 
 for thisTrial in trials:
-    ButtonPressFlag = False
+    # ButtonPressFlag = False
     currentLoop = trials
     # abbreviate parameter names if possible (e.g. rgb = thisTrial.rgb)
     if thisTrial != None:
@@ -959,7 +971,7 @@ for thisTrial in trials:
                 resp.keys = theseKeys[-1]  # just the last key pressed
                 resp.rt = resp.clock.getTime()
                 # was this 'correct'?
-                if (resp.keys == str(Corr)) or (resp.keys == Corr):
+                if (resp.keys == str(Corr)) or (resp.keys == Corr)  or (str(Corr) in CurrentResponse):
                     resp.corr = 1
                 else:
                     resp.corr = 0
@@ -1097,11 +1109,11 @@ for thisTrial in trials:
     # the Routine "trial" was not non-slip safe, so reset the non-slip timer
     routineTimer.reset()
     # If no keyboard response has been made, check the mouse for correct responses
-    if not ButtonPressFlag: 
-        if (CurrentResponse[-1] == str(Corr)) or (CurrentResponse[-1] == Corr):
-            resp.corr = 1
-        else:
-            resp.corr = 0
+    #if not ButtonPressFlag: 
+    if (CurrentResponse[-1] == str(Corr)) or (CurrentResponse[-1] == Corr)  or (str(Corr) in CurrentResponse):
+        resp.corr = 1
+    else:
+        resp.corr = 0
             
   
     # store data for trials (TrialHandler)
