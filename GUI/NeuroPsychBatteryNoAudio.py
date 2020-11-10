@@ -10,7 +10,10 @@ from psychopy.constants import (NOT_STARTED, STARTED, PLAYING, PAUSED,
 # http://www.blog.pythonlibrary.org/2010/07/10/the-dialogs-of-wxpython-part-2-of-2/
 # Clock resources: psychopy-users/tFghyXkOx5U
 #from psychopy.gui import wxgui
-
+#
+# Prevent double clicks
+# https://stackoverflow.com/questions/24348296/wxpython-ignore-or-delete-events
+#
 import os  # handy system and path functions
 import sys  # to get file system encoding
 import wx

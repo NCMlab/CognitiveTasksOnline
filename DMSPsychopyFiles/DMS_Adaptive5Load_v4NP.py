@@ -117,7 +117,7 @@ SpacingOfLettersRelativeToCenter = 80
 # height=FontSize
 StimOnTime = 2.5
 RetOnTime = 3.5
-ProbeOnTime= 2.5
+ProbeOnTime = 5
 # This is the intertrial interval. This experimental component is part of the trial.
 ITITime = 1.0
 # This is the time between blocks. Note that between each block of trials there
@@ -718,7 +718,7 @@ for thisBlock in Blocks:
             frameRemains = (StimOnTime+RetOnTime) + ProbeOnTime- win.monitorFramePeriod * 0.75  # most of one frame period left
             if textProbe.status == STARTED and t >= frameRemains:
                 textProbe.setAutoDraw(False)
-            
+                image.setAutoDraw(False)
             # *textITI* updates
             if t >= (StimOnTime+RetOnTime+ProbeOnTime) and textITI.status == NOT_STARTED:
                 # keep track of start time/frame for later
@@ -750,9 +750,12 @@ for thisBlock in Blocks:
                 if len(theseKeys) > 0:  # at least one key was pressed
                     resp.keys = theseKeys[-1]  # just the last key pressed
                     resp.rt = resp.clock.getTime()
-                    # This is here to try to remove the letter from the screen after a key is pressed
+                    # This is where to try to remove the letter from the screen after a key is pressed
                     textProbe.setAutoDraw(False)
+                    # Remove the response keyboard figure from the screen
+                    image.setAutoDraw(False)
                     textITI.setAutoDraw(True)
+                    
                     win.flip()
                     
                 if CounterBalFlag == 'False':

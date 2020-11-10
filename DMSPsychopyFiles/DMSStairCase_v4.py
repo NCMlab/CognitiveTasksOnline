@@ -97,7 +97,7 @@ ProbeColor = 'blue'
 # Timing
 StimOnTime = 2.5
 RetOnTime = 3.5
-ProbeOnTime= 2.5
+ProbeOnTime = 5
 ITITime = 1.0
 MaxTime = 7 # minutes
 MaxTrials = expInfo['Max Trials'] # End after this many trials
@@ -440,6 +440,8 @@ for thisStep in staircase:
 
     # What is the correct response for this trial?
     # Get a response
+    # The program waits in this while loop until escape or a keyboard press is made
+    #
     k = ['']
     KeyBoardCount = 0
     while k[0] not in ['escape', 'esc'] and KeyBoardCount < 1:
