@@ -21,10 +21,6 @@ from tkinter import messagebox
 BaseDir = "/Users/jasonsteffener/Documents/GitHub/CognitiveTasksOnline/GUI"
 sys.path.append(BaseDir)
 
-
-
-
-
 def MakePassword():
     # Make a password as a pronouncable word plus two digits
     randomword = PronounceableWord().length(5,9)
@@ -65,15 +61,11 @@ def RemoveAuthorizedUser(UserList, PasswordList, UserToRemove):
         print('User not found in list')
     return UserList, PasswordList
 
-
-
 def TestReadXML(fileName):
     UserList, PasswordList = ReadUsermapping(fileName)
     PrintUserList(UserList)
     RemoveAuthorizedUser(UserList, PasswordList, 'Person001')
     PrintUserList(UserList)
-
-
 
 def SelectUserFromList(UserList, PasswordList):
     # Create a GUI to select which use to delete
