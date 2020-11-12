@@ -17,10 +17,6 @@ class Mywin(wx.Frame):
       # Make a button
       self.btnPartEntry1 = wx.Button(panel,-1,label = "Check User List", pos = (100,200), size = ((100,50))) 
       self.btnPartEntry2 = wx.Button(panel,-1,label = "Delete Selected User", pos = (100,100), size = ((100,50))) 
-      # Make a subid text entry
-      self.PartID = wx.TextCtrl(panel,-1,'',size=(100,-1),pos = (100,150))
-      
-      
       
       # Bind the button to a function and pass a list to it
       self.Bind(wx.EVT_BUTTON, lambda event: self.OnCickUpdateDisplayedList(event, NewList), self.btnPartEntry1)
@@ -46,24 +42,13 @@ class Mywin(wx.Frame):
       self.lst.Set(self.List)
       
    def RemoveSelection(self, event):
+        # Check the inyternal
+      print(self.List)
+      print("Hello")
       # Remove the selected item from the list
-      # Check to see if anything is selected
-      if self.Selection != '':
-        # Add a warning to double check
-        resp = wx.MessageBox('You have selected to delete user %s. Are you sure?'%(self.Selection), 'Warning',
-                                     wx.OK | wx.CANCEL | wx.ICON_WARNING)
-        if resp == wx.OK:
-            # remove the item
-            self.List.remove(self.Selection)
-            self.UpdateList()
-            # reset the internal selection variable
-            self.Selection = ''
-
-   
-   def AddUser(self, event):
-        # Check to see if anything has been entered
-   
-      pass
+      self.List.remove(self.Selection)
+      self.UpdateList()
+      
       
    def onListBox(self, event):
         # Get the selected user from the list
