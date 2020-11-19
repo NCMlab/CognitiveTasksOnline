@@ -8,6 +8,14 @@
       <param name="password">ABCDED</param>
     </connection>
   </authorize>
+  <authorize username="Jason" password="checo58">
+    <connection>
+      <protocol>vnc</protocol>
+      <param name="hostname">localhost</param>
+      <param name="port">5901</param>
+      <param name="password">ABCDED</param>
+    </connection>
+  </authorize>
   <authorize username="Jason2" password="llatbjus52">
     <connection>
       <protocol>vnc</protocol>

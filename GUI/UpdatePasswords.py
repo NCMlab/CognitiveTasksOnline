@@ -77,7 +77,7 @@ def SelectUserFromList(UserList, PasswordList):
     w = OptionMenu(master, variable, *UserList)
     w.pack()
     
-    def WhatToDoWithSelectionFromList():
+def WhatToDoWithSelectionFromList():
         global UserToRemove
         UserToRemove = variable.get()
         print ("value is:" + UserToRemove)
