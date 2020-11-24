@@ -3,6 +3,7 @@ import xml.etree.ElementTree as ET
 from xml.etree import ElementTree
 from xml.dom import minidom
 import numpy as np
+import pandas as pd
 import shutil
 import os
 import pyperclip
@@ -25,8 +26,11 @@ class Mywin(wx.Frame):
       self.Selection = ''
       self.XMLInputPath = '/Users/jasonsteffener/Documents/GitHub/CognitiveTasksOnline/GUI'
       self.XMLInputFile = 'items004.xml'
+      self.AuthUserFile = 'AuthUser'
       self.VNCPassword = ''
       self.GuacURL = '206.12.22'
+      # Load up the authorized user list
+      self.LoadAuthorizedUserList(os.path.join(self.XMLInputPath,self.AuthUserFile))
       # When the user list is checked. First the internal list is checked. If it is empty, then load up the XML 
       # file. If it is not empty then just check the internal file.
       self.btnPartEntry1 = wx.Button(panel,-1,label = "Check User List", pos = (100,0), size = ((200,50))) 
@@ -59,8 +63,8 @@ class Mywin(wx.Frame):
     # Set the list into the text ctrl box
     
    def OnCickUpdateDisplayedList(self, event):
-      # Check to see if the internal lus is empty
-      # If it is then load up the user login file
+      # Check to see if the internal list is empty
+      # If it is, than load up the user login file
       if self.UserList == '':
         [UserList, PasswordList] = self.ReadUsermapping(os.path.join(self.XMLInputPath, self.XMLInputFile))
         # Once the list has been updated store it in the self variable so it can 
@@ -72,6 +76,9 @@ class Mywin(wx.Frame):
       self.UserList = UserList
       self.PasswordList = PasswordList
       print(PasswordList)
+      # Once the list is loaded up, compare each item to teh auth user list
+      # If someone is an authorized user then remove them from the list displayed
+      self.RemoveAuthListFromInternalList()
       # Write the user list to the GUI
       self.lst.Set(UserList)
       
@@ -173,6 +180,7 @@ class Mywin(wx.Frame):
         user01level1.set('password',password)
         
         user01level2 = ET.SubElement(user01level1, 'connection')
+        user01level2.set('name','localhost')
         user01level3a = ET.SubElement(user01level2, 'protocol')
         user01level3a.text = 'vnc'
         user01level3b = ET.SubElement(user01level2, 'param')
@@ -206,9 +214,47 @@ class Mywin(wx.Frame):
         return reparsed.toprettyxml(indent="  ")
 
    def MakeEmail(self, event):
-       Str = self.GuacURL
-       pyperclip.copy(Str)
+       if self.Selection != '':
+            index = self.UserList.index(self.Selection)
+            
+            
+          
+            Str = "Please visit the site: %s \n"%(self.GuacURL)
+            Str = Str + "Use the following login and password for access\n"
+            Str = Str + "Username: %s \n"%(self.UserList[index])
+            Str = Str + "Password: %s \n"%(self.PasswordList[index])
+            wx.MessageBox(Str, 'Login Information',
+                                     wx.OK | wx.ICON_WARNING)
+          
+   def LoadAuthorizedUserList(self, fileName):
+       self.AuthList = pd.read_csv(fileName)
+          
+   def HowManyDesktopsAreUsed():
+       pass
 
+   def CompareUserToAuthList(self, AuthList, TestUser):
+        # Check to see if this user is in the authorized user list
+        return AuthList.loc[AuthList['Username'] == TestUser].shape[0] > 0
+    
+       
+   def RemoveAuthListFromInternalList(self):
+
+
+        for i in self.UserList:
+            # Is this an authorized user?
+            if self.CompareUserToAuthList(self.AuthList, i):
+                # If the user is an authorized user, find their index in the list
+                index = self.UserList.index(i)
+                # remove the user from the internal userlist
+                self.UserList.pop(index)
+                # and the internal password list
+                self.PasswordList.pop(index)
+        return self.UserList
+
+                    
+
+
+    
    def CloseGUI(self, event):
        self.Close()
 

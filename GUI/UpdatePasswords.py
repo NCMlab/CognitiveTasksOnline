@@ -78,10 +78,10 @@ def SelectUserFromList(UserList, PasswordList):
     w.pack()
     
 def WhatToDoWithSelectionFromList():
-        global UserToRemove
-        UserToRemove = variable.get()
-        print ("value is:" + UserToRemove)
-        master.destroy()
+    global UserToRemove
+    UserToRemove = variable.get()
+    print ("value is:" + UserToRemove)
+    master.destroy()
         
     button = Button(master, text="OK", command=WhatToDoWithSelectionFromList)
     button.pack()
@@ -117,6 +117,7 @@ def CreateNewUser(data, username, password):
     user01level1.set('password',password)
     
     user01level2 = ET.SubElement(user01level1, 'connection')
+    user01level2.set('name','localhost')
     user01level3a = ET.SubElement(user01level2, 'protocol')
     user01level3a.text = 'vnc'
     user01level3b = ET.SubElement(user01level2, 'param')
@@ -131,11 +132,13 @@ def CreateNewUser(data, username, password):
     return data
 
 
+for child in data:
+    print(child.tag,child.attrib)
+    
+#[UserList, PasswordList] = ReadUsermapping("items004.xml")
+#CreateNewUser(data, username, password)
 
-[UserList, PasswordList] = ReadUsermapping("items004.xml")
-CreateNewUser(data, username, password)
+#SelectUserFromList(UserList, PasswordList)
 
-SelectUserFromList(UserList, PasswordList)
-
-CreateXML()
-CreateNewUser(data, username, password)
+#CreateXML()
+#CreateNewUser(data, username, password)
