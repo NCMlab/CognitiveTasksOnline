@@ -32,4 +32,12 @@
       <param name="password">ABCDED</param>
     </connection>
   </authorize>
+  <authorize username="Jason3" password="mathanga48">
+    <connection name="localhost">
+      <protocol>vnc</protocol>
+      <param name="hostname">localhost</param>
+      <param name="port">5901</param>
+      <param name="password">ABCDED</param>
+    </connection>
+  </authorize>
 </user-mapping>

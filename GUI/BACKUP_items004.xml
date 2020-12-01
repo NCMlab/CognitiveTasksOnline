@@ -1,23 +1,7 @@
 <?xml version="1.0" ?>
 <user-mapping>
   <authorize username="John" password="thenth98">
-    <connection>
-      <protocol>vnc</protocol>
-      <param name="hostname">localhost</param>
-      <param name="port">5901</param>
-      <param name="password">ABCDED</param>
-    </connection>
-  </authorize>
-  <authorize username="Jason2" password="llatbjus52">
-    <connection>
-      <protocol>vnc</protocol>
-      <param name="hostname">localhost</param>
-      <param name="port">5901</param>
-      <param name="password">ABCDED</param>
-    </connection>
-  </authorize>
-  <authorize username="Jason3" password="deched30">
-    <connection>
+    <connection name="localhost">
       <protocol>vnc</protocol>
       <param name="hostname">localhost</param>
       <param name="port">5901</param>
@@ -25,7 +9,23 @@
     </connection>
   </authorize>
   <authorize username="Jason4" password="melilep51">
-    <connection>
+    <connection name="localhost">
+      <protocol>vnc</protocol>
+      <param name="hostname">localhost</param>
+      <param name="port">5901</param>
+      <param name="password">ABCDED</param>
+    </connection>
+  </authorize>
+  <authorize username="Oswald" password="alesh73">
+    <connection name="localhost">
+      <protocol>vnc</protocol>
+      <param name="hostname">localhost</param>
+      <param name="port">5901</param>
+      <param name="password">ABCDED</param>
+    </connection>
+  </authorize>
+  <authorize username="oswald2" password="wheecem85">
+    <connection name="localhost">
       <protocol>vnc</protocol>
       <param name="hostname">localhost</param>
       <param name="port">5901</param>
