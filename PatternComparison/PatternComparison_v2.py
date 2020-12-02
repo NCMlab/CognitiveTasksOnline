@@ -94,7 +94,7 @@ else:
 # Initialize components for Routine "Instructions"
 InstructionsClock = core.Clock()
 text_2 = visual.TextStim(win=win, name='text_2',
-    text=u'You will be presented with two figures. \nDetermine tf the figures are the same, press "left" for yes, press "right" for no.The sets of images change quickly so please respond as quickly and accurately as possible.\n\nPress any key to begin.',
+    text=u'You will be presented with two figures. \nDetermine if the figures are the same, press "left" for yes, press "right" for no. The sets of images change quickly so please respond as quickly and accurately as possible.\n\nPress any key to begin.',
     font=u'Arial',
     pos=(0, 0), height=40, wrapWidth=800, ori=0, 
     color=FontColor, colorSpace='rgb', opacity=1,
