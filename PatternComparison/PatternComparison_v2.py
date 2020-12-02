@@ -27,6 +27,8 @@ os.chdir(_thisDir)
 
 BaseDir = "../../CompanionFolderForCognitiveTasks/PatternComparisonImages"
 
+TrialOnTime = 3.0
+FeedbackOnTime = 1.0
 # #################
 # Store info about the experiment session
 expName = u'Speed'  # from the Builder filename that created this script
@@ -138,7 +140,7 @@ Different = visual.TextStim(win=win, name='Different',
     color=FontColor, colorSpace='rgb', opacity=1,
     depth=-4.0);
     
-image = visual.ImageStim(
+KeyBoardFigure = visual.ImageStim(
     win=win,
     name='image', 
     image='../GUI/YesNoKeyboard.png', mask=None,
@@ -299,7 +301,7 @@ continueRoutine = True
 routineTimer.add(3.000000)
 # update component parameters for each repeat
 # keep track of which components have finished
-PracticeTextComponents = [text_4, image]
+PracticeTextComponents = [text_4]
 for thisComponent in PracticeTextComponents:
     if hasattr(thisComponent, 'status'):
         thisComponent.status = NOT_STARTED
@@ -356,7 +358,8 @@ if thisPractice != None:
         exec('{} = thisPractice[paramName]'.format(paramName))
 
 for thisPractice in Practice:
-    image.setAutoDraw(True)
+    routineTimer.reset() # NEW 
+    KeyBoardFigure.setAutoDraw(True)
     currentLoop = Practice
     # abbreviate parameter names if possible (e.g. rgb = thisPractice.rgb)
     if thisPractice != None:
@@ -375,7 +378,7 @@ for thisPractice in Practice:
     
     resp = event.BuilderKeyResponse()
     # keep track of which components have finished
-    trialComponents = [imageL, imageR, resp, image]
+    trialComponents = [imageL, imageR, resp, KeyBoardFigure]
     for thisComponent in trialComponents:
         if hasattr(thisComponent, 'status'):
             thisComponent.status = NOT_STARTED
@@ -393,7 +396,7 @@ for thisPractice in Practice:
             imageL.tStart = t
             imageL.frameNStart = frameN  # exact frame index
             imageL.setAutoDraw(True)
-        frameRemains = 0.0 + 3- win.monitorFramePeriod * 0.75  # most of one frame period left
+        frameRemains = 0.0 + TrialOnTime - win.monitorFramePeriod * 0.75  # most of one frame period left
         if imageL.status == STARTED and t >= frameRemains:
             imageL.setAutoDraw(False)
         
@@ -403,7 +406,7 @@ for thisPractice in Practice:
             imageR.tStart = t
             imageR.frameNStart = frameN  # exact frame index
             imageR.setAutoDraw(True)
-        frameRemains = 0.0 + 3- win.monitorFramePeriod * 0.75  # most of one frame period left
+        frameRemains = 0.0 + TrialOnTime - win.monitorFramePeriod * 0.75  # most of one frame period left
         if imageR.status == STARTED and t >= frameRemains:
             imageR.setAutoDraw(False)
         
@@ -416,7 +419,7 @@ for thisPractice in Practice:
             # keyboard checking is just starting
             win.callOnFlip(resp.clock.reset)  # t=0 on next screen flip
             event.clearEvents(eventType='keyboard')
-        frameRemains = 0.0 + 3- win.monitorFramePeriod * 0.75  # most of one frame period left
+        frameRemains = 0.0 + TrialOnTime - win.monitorFramePeriod * 0.75  # most of one frame period left
         if resp.status == STARTED and t >= frameRemains:
             resp.status = STOPPED
         if resp.status == STARTED:
@@ -456,10 +459,11 @@ for thisPractice in Practice:
 #        if Different.status == STARTED and t >= frameRemains:
 #            Different.setAutoDraw(False)
         
-        # check if all components have finished
+        #check if all components have finished
         if not continueRoutine:  # a component has requested a forced-end of Routine
             break
-        continueRoutine = False  # will revert to True if at least one component still running
+
+            continueRoutine = False  # will revert to True if at least one component still running
         for thisComponent in trialComponents:
             if hasattr(thisComponent, "status") and thisComponent.status != FINISHED:
                 continueRoutine = True
@@ -549,7 +553,8 @@ for thisPractice in Practice:
         if hasattr(thisComponent, "setAutoDraw"):
             thisComponent.setAutoDraw(False)
     
-    
+#    if t > 5:
+#        continueRoutine = False
     # ------Prepare to start Routine "CrossHair"-------
     t = 0
     CrossHairClock.reset()  # clock
@@ -700,6 +705,7 @@ for thisComponent in StartRunComponents:
 
 # -------Start Routine "StartRun"-------
 while continueRoutine:
+    
     # get current time
     t = StartRunClock.getTime()
     frameN = frameN + 1  # number of completed frames (so 0 is the first frame)
@@ -777,8 +783,9 @@ if thisRun != None:
         exec('{} = thisRun[paramName]'.format(paramName))
 
 for thisRun in Run:
+    routineTimer.reset() # NEW 
     currentLoop = Run
-    image.setAutoDraw(True)
+    KeyBoardFigure.setAutoDraw(True)
     # abbreviate parameter names if possible (e.g. rgb = thisRun.rgb)
     if thisRun != None:
         for paramName in thisRun.keys():
@@ -789,13 +796,13 @@ for thisRun in Run:
     trialClock.reset()  # clock
     frameN = -1
     continueRoutine = True
-    routineTimer.add(3.000000)
+    routineTimer.add(TrialOnTime)
     # update component parameters for each repeat
     imageL.setImage(os.path.join(BaseDir,Figure1))
     imageR.setImage(os.path.join(BaseDir,Figure2))
     resp = event.BuilderKeyResponse()
     # keep track of which components have finished
-    trialComponents = [imageL, imageR, resp, image]
+    trialComponents = [imageL, imageR, resp, KeyBoardFigure]
     for thisComponent in trialComponents:
         if hasattr(thisComponent, 'status'):
             thisComponent.status = NOT_STARTED
@@ -813,7 +820,7 @@ for thisRun in Run:
             imageL.tStart = t
             imageL.frameNStart = frameN  # exact frame index
             imageL.setAutoDraw(True)
-        frameRemains = 0.0 + 3- win.monitorFramePeriod * 0.75  # most of one frame period left
+        frameRemains = 0.0 + TrialOnTime- win.monitorFramePeriod * 0.75  # most of one frame period left
         if imageL.status == STARTED and t >= frameRemains:
             imageL.setAutoDraw(False)
         
@@ -823,7 +830,7 @@ for thisRun in Run:
             imageR.tStart = t
             imageR.frameNStart = frameN  # exact frame index
             imageR.setAutoDraw(True)
-        frameRemains = 0.0 + 3- win.monitorFramePeriod * 0.75  # most of one frame period left
+        frameRemains = 0.0 + TrialOnTime - win.monitorFramePeriod * 0.75  # most of one frame period left
         if imageR.status == STARTED and t >= frameRemains:
             imageR.setAutoDraw(False)
         
