@@ -12,15 +12,15 @@ from pronounceable import PronounceableWord
 class Mywin(wx.Frame): 
             
    def __init__(self, parent, title): 
-      super(Mywin, self).__init__(parent, title = title,size = (350,300))
-        # Make a panel
-      panel = wx.Panel(self) 
-        # This is the initial list
-      languages = []   
-        # This is a second list and used only for demonstration purposes
-        # Make a list box
-      self.lst = wx.ListBox(panel, size = (100,300), choices = languages, style = wx.LB_SINGLE)
-      # Initialize with an empty list
+      # super(Mywin, self).__init__(parent, title = title,size = (350,300))
+      #   # Make a panel
+      # panel = wx.Panel(self) 
+      #   # This is the initial list
+      # languages = []   
+      #   # This is a second list and used only for demonstration purposes
+      #   # Make a list box
+      # self.lst = wx.ListBox(panel, size = (100,300), choices = languages, style = wx.LB_SINGLE)
+      # # Initialize with an empty list
       self.UserList = ''
       self.PasswordList = ''
       self.Selection = ''
@@ -33,32 +33,32 @@ class Mywin(wx.Frame):
       self.LoadAuthorizedUserList(os.path.join(self.XMLInputPath,self.AuthUserFile))
       # When the user list is checked. First the internal list is checked. If it is empty, then load up the XML 
       # file. If it is not empty then just check the internal file.
-      self.btnPartEntry1 = wx.Button(panel,-1,label = "Check User List", pos = (100,0), size = ((200,50))) 
-      # Make a subid text entry
-      self.PartID = wx.TextCtrl(panel,-1,'',size=(130,-1),pos = (190,45))
-      self.btnPartEntry3 = wx.Button(panel,-1,label = "Add User", pos = (100,30), size = ((80,50))) 
-      self.btnPartEntry2 = wx.Button(panel,-1,label = "Delete Selected User", pos = (100,60), size = ((200,50)))
-      self.btnPartEntry4 = wx.Button(panel,-1,label = "Save Login File", pos = (100,90), size = ((200,50))) 
-      self.btnPartEntry6 = wx.Button(panel,-1,label = "Create Login Text for User", pos = (100,120), size = ((200,50))) 
-      self.btnPartEntry5 = wx.Button(panel,-1,label = "Close", pos = (100,220), size = ((200,50))) 
+      # self.btnPartEntry1 = wx.Button(panel,-1,label = "Check User List", pos = (100,0), size = ((200,50))) 
+      # # Make a subid text entry
+      # self.PartID = wx.TextCtrl(panel,-1,'',size=(130,-1),pos = (190,45))
+      # self.btnPartEntry3 = wx.Button(panel,-1,label = "Add User", pos = (100,30), size = ((80,50))) 
+      # self.btnPartEntry2 = wx.Button(panel,-1,label = "Delete Selected User", pos = (100,60), size = ((200,50)))
+      # self.btnPartEntry4 = wx.Button(panel,-1,label = "Save Login File", pos = (100,90), size = ((200,50))) 
+      # self.btnPartEntry6 = wx.Button(panel,-1,label = "Create Login Text for User", pos = (100,120), size = ((200,50))) 
+      # self.btnPartEntry5 = wx.Button(panel,-1,label = "Close", pos = (100,220), size = ((200,50))) 
       
       
       
-      # Bind the button to a function and pass a list to it
-      self.Bind(wx.EVT_BUTTON, lambda event: self.OnCickUpdateDisplayedList(event), self.btnPartEntry1)
-      self.btnPartEntry2.Bind(wx.EVT_BUTTON, self.RemoveSelection)
-      self.btnPartEntry3.Bind(wx.EVT_BUTTON, self.AddUser)
-      self.btnPartEntry4.Bind(wx.EVT_BUTTON, self.SaveLoginFile)
-      self.btnPartEntry5.Bind(wx.EVT_BUTTON, self.CloseGUI)
-      self.btnPartEntry6.Bind(wx.EVT_BUTTON, self.MakeEmail)
+      # # Bind the button to a function and pass a list to it
+      # self.Bind(wx.EVT_BUTTON, lambda event: self.OnCickUpdateDisplayedList(event), self.btnPartEntry1)
+      # self.btnPartEntry2.Bind(wx.EVT_BUTTON, self.RemoveSelection)
+      # self.btnPartEntry3.Bind(wx.EVT_BUTTON, self.AddUser)
+      # self.btnPartEntry4.Bind(wx.EVT_BUTTON, self.SaveLoginFile)
+      # self.btnPartEntry5.Bind(wx.EVT_BUTTON, self.CloseGUI)
+      # self.btnPartEntry6.Bind(wx.EVT_BUTTON, self.MakeEmail)
       
-      # Bind an action to the list box
-      self.Bind(wx.EVT_LISTBOX, self.onListBox, self.lst) 
-      panel.Fit() 
+      # # Bind an action to the list box
+      # self.Bind(wx.EVT_LISTBOX, self.onListBox, self.lst) 
+      # panel.Fit() 
       
-      self.Centre() 
-      #self.Bind(wx.EVT_LISTBOX, self.onListBox, self.lst) 
-      self.Show(True)  
+      # self.Centre() 
+      # #self.Bind(wx.EVT_LISTBOX, self.onListBox, self.lst) 
+      # self.Show(True)  
       
     # Set the list into the text ctrl box
     
@@ -238,6 +238,8 @@ class Mywin(wx.Frame):
     
        
    def RemoveAuthListFromInternalList(self):
+
+
         for i in self.UserList:
             # Is this an authorized user?
             if self.CompareUserToAuthList(self.AuthList, i):
@@ -257,6 +259,6 @@ class Mywin(wx.Frame):
        self.Close()
 
     
-ex = wx.App() 
-Mywin(None,'ListBox Demo') 
-ex.MainLoop()
+# ex = wx.App() 
+# Mywin(None,'ListBox Demo') 
+# ex.MainLoop()
