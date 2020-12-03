@@ -161,7 +161,7 @@ image = visual.ImageStim(
     win=win,
     name='image', 
     image='StroopColorsKeyboard.png', mask=None,
-    ori=0, pos=(0, -350), size=(400,120),
+    ori=0, pos=(0, -250), size=(400,120),
     color=[1,1,1], colorSpace='rgb', opacity=1,
     flipHoriz=False, flipVert=False,
     texRes=128, interpolate=True, depth=0.0)

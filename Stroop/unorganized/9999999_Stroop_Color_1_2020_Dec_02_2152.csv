@@ -1,0 +1,4 @@
+﻿Word,TextColor,Congruency,CorrColor,CorrWord,ShapeColor,practice.thisRepN,practice.thisTrialN,practice.thisN,practice.thisIndex,resp.keys,resp.corr,resp.rt,session,Participant ID,date,expName,frameRate,
+Green,Yellow,Incon,b,n,"[1, 1, -1]",0,0,0,3,b,1,2.8577037530048983,01,9999999,2020_Dec_02_2152,Stroop,59.973317749798525,
+Red,Blue,Incon,m,v,"[-1, -1, 1]",0,1,1,6,n,0,0.3710124360077316,01,9999999,2020_Dec_02_2152,Stroop,59.973317749798525,
+Blue,Blue,Con,m,m,"[-1, -1, 1]",0,2,2,9,m,1,0.053411473010783084,01,9999999,2020_Dec_02_2152,Stroop,59.973317749798525,

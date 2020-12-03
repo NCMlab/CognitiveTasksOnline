@@ -75,7 +75,7 @@ SpacingOfLettersRelativeToCenter = 80
 # height=FontSize
 StimOnTime = 2.5
 RetOnTime = 3.5
-ProbeOnTime= 2.5
+ProbeOnTime = 5
 # This is the intertrial interval. This experimental component is part of the trial.
 ITITime = 1.0
 

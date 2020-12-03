@@ -59,7 +59,7 @@ else:
     
     Tag = 'BehRun1'
     PartDataFolder = OutDir
-    ConfigFile = 'VSTM_Behav_Config'
+    ConfigFile = 'VSTM_BehavOnline_Config'
     FixedLocations = True
     
 if FixedLocations:    
@@ -216,7 +216,7 @@ image = visual.ImageStim(
     win=win,
     name='image', 
     image='../GUI/YesNoKeyboard.png', mask=None,
-    ori=0, pos=(0, -380), size=(200,136),
+    ori=0, pos=(0, -300), size=(200,136),
     color=[1,1,1], colorSpace='rgb', opacity=1,
     flipHoriz=False, flipVert=False,
     texRes=128, interpolate=True, depth=0.0)   
@@ -378,7 +378,9 @@ for thisBlock in Blocks:
         
         # Put the mask dots on the screen
         #GreenCross.setAutoDraw(False)
+        # Reset the countdown clock so that the mask is on a fixed amount of time
         win.flip()
+        countDown.reset()
         countDown.add(VSTM_MaskOnTime)
         while countDown.getTime() > 0:
             pass
