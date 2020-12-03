@@ -33,6 +33,10 @@ ProbeColor = 'blue'
 # Timings
 FontSize = 60
 FontSizeUnits = 'pix'
+# Override the config file
+GridSize = GridCount*39+1
+ProbeOnTime = 5
+
 #GridCount = 6 # Number of circles to have on each row
 #GridSize = GridCount*52+1 # The size of the grid for which the circles on on
 CircleSize = (GridSize*2)/GridCount # The circle size so that they are all just touching
@@ -208,7 +212,7 @@ image = visual.ImageStim(
     win=win,
     name='image', 
     image='../GUI/YesNoKeyboard.png', mask=None,
-    ori=0, pos=(0, -380), size=(200,136),
+    ori=0, pos=(0, -300), size=(200,136),
     color=[1,1,1], colorSpace='rgb', opacity=1,
     flipHoriz=False, flipVert=False,
     texRes=128, interpolate=True, depth=0.0)    
@@ -339,6 +343,7 @@ for thisStep in staircase:
     # Put the mask dots on the screen
     #GreenCross.setAutoDraw(False)
     win.flip()
+    countDown.reset()
     countDown.add(MaskOnTime)
     while countDown.getTime() > 0:
         pass
