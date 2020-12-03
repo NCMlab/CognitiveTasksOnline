@@ -24,13 +24,18 @@ class Mywin(wx.Frame):
       self.UserList = ''
       self.PasswordList = ''
       self.Selection = ''
-      self.XMLInputPath = '/Users/jasonsteffener/Documents/GitHub/CognitiveTasksOnline/GUI'
+      self.XMLInputPath = '/Users/jasonsteffener/Documents/GitHub/XMLtemp'
       self.XMLInputFile = 'items004.xml'
       self.AuthUserFile = 'AuthUser'
       self.VNCPassword = ''
       self.GuacURL = '206.12.22'
+      # Create a connection list. These are all possible desktop connections
+      # that are available. Essentially, these are the VNC connections
+      DesktopPortList = {'5911','5912','5913','5914','5915'}
       # Load up the authorized user list
       self.LoadAuthorizedUserList(os.path.join(self.XMLInputPath,self.AuthUserFile))
+      # Once the GUI is open. Check the user list and load it
+      self.OnCickUpdateDisplayedList(0)
       # When the user list is checked. First the internal list is checked. If it is empty, then load up the XML 
       # file. If it is not empty then just check the internal file.
       self.btnPartEntry1 = wx.Button(panel,-1,label = "Check User List", pos = (100,0), size = ((200,50))) 
@@ -59,6 +64,8 @@ class Mywin(wx.Frame):
       self.Centre() 
       #self.Bind(wx.EVT_LISTBOX, self.onListBox, self.lst) 
       self.Show(True)  
+
+      
       
     # Set the list into the text ctrl box
     
@@ -97,11 +104,14 @@ class Mywin(wx.Frame):
             # remove the item
             # Find where in the list the item is
             index = self.UserList.index(self.Selection)
+            username = self.UserList[index]
             self.UserList.remove(self.UserList[index])
             self.PasswordList.remove(self.PasswordList[index])
             self.UpdateList()
             # reset the internal selection variable
             self.Selection = ''
+            # Remove from the XML
+            self.XMLRemoveUser(username)
 
    
    def AddUser(self, event):
@@ -110,18 +120,22 @@ class Mywin(wx.Frame):
       if UserToAdd == '':
             wx.MessageBox('You need to enter a User ID', 'Warning',
                                      wx.OK | wx.ICON_WARNING)
-
       else:
             # Add the new user to the list
             self.UserList.append(UserToAdd)
             # Create a Password
-            self.PasswordList.append(self.MakePassword())
+            NewPassword = self.MakePassword()
+            self.PasswordList.append(NewPassword)
             print(self.PasswordList)
+            # Add the user to the XML
+            self.XMLAddUser(UserToAdd, NewPassword)
+            # Add connections
             
       # Update the list
       self.UpdateList()
       # Reset the text entry 
       self.PartID.SetValue('')
+      
             
    def onListBox(self, event):
         # Get the selected user from the list
@@ -150,49 +164,22 @@ class Mywin(wx.Frame):
         # print(UserList)
         # print(PasswordList)
         print(self.VNCPassword)
+        # Save the root XML to self so it can be used
+        self.XML = root
         return UserList, PasswordList
    
    def SaveLoginFile(self, event):
-       # Only do this if the existing file has been loaded
-       if self.UserList != '':
-           # Make a copy of the old XML file first
-           BackupName = 'BACKUP_' + self.XMLInputFile
-           shutil.copy(os.path.join(self.XMLInputPath, self.XMLInputFile),os.path.join(self.XMLInputPath, BackupName))
-           
-           # Create the out XML file
-           data = self.CreateXML()
-           N = len(self.UserList)
-           for i in range(N):
-               data = self.CreateNewUser(data, self.UserList[i], self.PasswordList[i])
-           self.WriteWithPrettify( data, self.XMLInputFile)
-         
+        # Make a copy of the old XML file first
+        BackupName = 'BACKUP_' + self.XMLInputFile
+        shutil.copy(os.path.join(self.XMLInputPath, self.XMLInputFile),os.path.join(self.XMLInputPath, BackupName))
+        
+        self.WriteWithPrettify(self.XMLInputFile)
+      
    def CreateXML(self):
         # Create the base XML file for user mapping for GUAC
         data = ET.Element('user-mapping')
         print(data)
         return data      
-        
-   def CreateNewUser(self, data, username, password):
-        # Create the authorization for a GUAC user.
-        # Note the hardcoded VNC password!
-        user01level1 = ET.SubElement(data, 'authorize')
-        user01level1.set('username',username)
-        user01level1.set('password',password)
-        
-        user01level2 = ET.SubElement(user01level1, 'connection')
-        user01level2.set('name','localhost')
-        user01level3a = ET.SubElement(user01level2, 'protocol')
-        user01level3a.text = 'vnc'
-        user01level3b = ET.SubElement(user01level2, 'param')
-        user01level3b.set('name','hostname')
-        user01level3b.text = 'localhost'
-        user01level3c = ET.SubElement(user01level2, 'param')
-        user01level3c.set('name','port')
-        user01level3c.text = '5901'
-        user01level3d = ET.SubElement(user01level2, 'param')
-        user01level3d.set('name','password')
-        user01level3d.text = self.VNCPassword
-        return data
     
    def MakePassword(self):
         # Make a password as a pronouncable word plus two digits
@@ -201,10 +188,14 @@ class Mywin(wx.Frame):
         Password = randomword + str(randomnumber)
         return Password
     
-   def WriteWithPrettify(self, tree, fileName):
+   def WriteWithPrettify(self, fileName):
+       #self.XML.write(open(os.path.join(self.XMLInoutPath, fileName)),'wb')
+       mydata = ET.tostring(self.XML)
+       myfile = open(os.path.join(self.XMLInputPath, fileName),'wb')
+       myfile.write(mydata)
         # Write out an XML file, making it pretty
-        with open(fileName, 'w') as output:
-            output.write(self.prettify(tree))
+        # with open(os.path.join(self.XMLInputPath,fileName), 'w') as output:
+        #     output.write(self.prettify(self.XML))
 
    def prettify(self, elem):
         """Return a pretty-printed XML string for the Element.
@@ -216,9 +207,6 @@ class Mywin(wx.Frame):
    def MakeEmail(self, event):
        if self.Selection != '':
             index = self.UserList.index(self.Selection)
-            
-            
-          
             Str = "Please visit the site: %s \n"%(self.GuacURL)
             Str = Str + "Use the following login and password for access\n"
             Str = Str + "Username: %s \n"%(self.UserList[index])
@@ -250,7 +238,49 @@ class Mywin(wx.Frame):
         return self.UserList
 
                     
-
+   def XMLAddUser(self, username, password):
+         # Create the authorization for a GUAC user.
+         # Note the hardcoded VNC password!
+         user01level1 = ET.SubElement(self.XML, 'authorize')
+         user01level1.set('username',username)
+         user01level1.set('password',password)
+         
+   def XMLRemoveUser(self, username):
+        # Find the supplied user name ane remove it
+        # Remove a user
+        for child in self.XML.findall('authorize'):
+            n = child.get('username')
+            if n == username:
+                self.XML.remove(child)
+                
+   def XMLRemoveConnection(self, connectionName):
+        # Find the connection and remove it for everyone
+        for child in self.XML.findall('authorize'):
+            for elem in child.findall('connection'):
+                n = elem.get('name')
+                if n == connectionName:
+                    child.remove(elem)
+    
+                     
+   def XMLAddConnection(self, username, port, connectionName):
+        # Once a user is made, add connections to it
+        for child in self.XML.findall('authorize'):
+            n = child.get('username')
+            if n == username:
+                
+                 user01level2 = ET.SubElement(child, 'connection')
+                 user01level2.set('name',connectionName)
+                 user01level3a = ET.SubElement(user01level2, 'protocol')
+                 user01level3a.text = 'vnc'
+                 user01level3b = ET.SubElement(user01level2, 'param')
+                 user01level3b.set('name','hostname')
+                 user01level3b.text = 'localhost'
+                 user01level3c = ET.SubElement(user01level2, 'param')
+                 user01level3c.set('name','port')
+                 user01level3c.text = port
+                 user01level3d = ET.SubElement(user01level2, 'param')
+                 user01level3d.set('name','password')
+                 user01level3d.text = 'VNCPASSWORD'
 
     
    def CloseGUI(self, event):
@@ -258,5 +288,5 @@ class Mywin(wx.Frame):
 
     
 ex = wx.App() 
-Mywin(None,'ListBox Demo') 
+s = Mywin(None,'ListBox Demo') 
 ex.MainLoop()
