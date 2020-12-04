@@ -31,14 +31,19 @@ class Mywin(wx.Frame):
       self.GuacURL = '206.12.22'
       # Create a connection list. These are all possible desktop connections
       # that are available. Essentially, these are the VNC connections
-      DesktopPortList = {'5911','5912','5913','5914','5915'}
+      self.DesktopPortList = ['5911','5912','5913','5914','5915']
       # Load up the authorized user list
       self.LoadAuthorizedUserList(os.path.join(self.XMLInputPath,self.AuthUserFile))
       # Once the GUI is open. Check the user list and load it
       self.OnCickUpdateDisplayedList(0)
+      # Make list of unused ports
+      PortList = self.MakeListOfUsedPorts()
+      print(PortList)
+      self.FindAvailablePorts(PortList)
+      print(self.AvailablePorts)
       # When the user list is checked. First the internal list is checked. If it is empty, then load up the XML 
       # file. If it is not empty then just check the internal file.
-      self.btnPartEntry1 = wx.Button(panel,-1,label = "Check User List", pos = (100,0), size = ((200,50))) 
+      # self.btnPartEntry1 = wx.Button(panel,-1,label = "Check User List", pos = (100,0), size = ((200,50))) 
       # Make a subid text entry
       self.PartID = wx.TextCtrl(panel,-1,'',size=(130,-1),pos = (190,45))
       self.btnPartEntry3 = wx.Button(panel,-1,label = "Add User", pos = (100,30), size = ((80,50))) 
@@ -50,7 +55,7 @@ class Mywin(wx.Frame):
       
       
       # Bind the button to a function and pass a list to it
-      self.Bind(wx.EVT_BUTTON, lambda event: self.OnCickUpdateDisplayedList(event), self.btnPartEntry1)
+      # self.Bind(wx.EVT_BUTTON, lambda event: self.OnCickUpdateDisplayedList(event), self.btnPartEntry1)
       self.btnPartEntry2.Bind(wx.EVT_BUTTON, self.RemoveSelection)
       self.btnPartEntry3.Bind(wx.EVT_BUTTON, self.AddUser)
       self.btnPartEntry4.Bind(wx.EVT_BUTTON, self.SaveLoginFile)
@@ -129,8 +134,13 @@ class Mywin(wx.Frame):
             print(self.PasswordList)
             # Add the user to the XML
             self.XMLAddUser(UserToAdd, NewPassword)
+            # Find an unused port
+            port = self.AvailablePorts[0]
             # Add connections
-            
+            self.XMLAddConnection(UserToAdd, port)
+      # Update the available ports list
+
+      self.FindAvailablePorts(self.MakeListOfUsedPorts())
       # Update the list
       self.UpdateList()
       # Reset the text entry 
@@ -190,12 +200,18 @@ class Mywin(wx.Frame):
     
    def WriteWithPrettify(self, fileName):
        #self.XML.write(open(os.path.join(self.XMLInoutPath, fileName)),'wb')
-       mydata = ET.tostring(self.XML)
-       myfile = open(os.path.join(self.XMLInputPath, fileName),'wb')
-       myfile.write(mydata)
-        # Write out an XML file, making it pretty
-        # with open(os.path.join(self.XMLInputPath,fileName), 'w') as output:
-        #     output.write(self.prettify(self.XML))
+       # mydata = ET.tostring(self.XML)
+       # myfile = open(os.path.join(self.XMLInputPath, fileName),'wb')
+       # myfile.write(self.prettify(mydata))
+       # Write out an XML file, making it pretty
+       with open(os.path.join(self.XMLInputPath,fileName), 'w') as output:
+             output.write(self.prettify(self.XML))
+        # Clean up the XML file and remove the extra blank lines
+       with open(os.path.join(self.XMLInputPath,fileName)) as xmlfile:
+           lines = [line for line in xmlfile if line.strip() is not ""]
+
+       with open(os.path.join(self.XMLInputPath,fileName), "w") as xmlfile:
+           xmlfile.writelines(lines)
 
    def prettify(self, elem):
         """Return a pretty-printed XML string for the Element.
@@ -237,7 +253,26 @@ class Mywin(wx.Frame):
                 self.PasswordList.pop(index)
         return self.UserList
 
-                    
+   def MakeListOfUsedPorts(self):
+        PortList = []
+        for child in self.XML.findall('authorize'):
+            # if this user is NOT on the authorizde list, find their port number
+            if not self.AuthList.loc[self.AuthList['Username'] == child.get('username')].shape[0] > 0:
+                for elem in child.findall('connection'):
+                    for i in elem.findall('param'):
+                        n = i.get('name')
+                        if n == 'port':
+                            PortList.append(i.text)
+        return PortList
+
+
+   def FindAvailablePorts(self, PortList):
+        AvailablePorts = []
+        for i in self.DesktopPortList:
+            if not i in PortList:
+                AvailablePorts.append(i)
+        self.AvailablePorts = AvailablePorts
+         
    def XMLAddUser(self, username, password):
          # Create the authorization for a GUAC user.
          # Note the hardcoded VNC password!
@@ -262,8 +297,9 @@ class Mywin(wx.Frame):
                     child.remove(elem)
     
                      
-   def XMLAddConnection(self, username, port, connectionName):
+   def XMLAddConnection(self, username, port):
         # Once a user is made, add connections to it
+        connectionName = username+'_'+port
         for child in self.XML.findall('authorize'):
             n = child.get('username')
             if n == username:

@@ -15,7 +15,7 @@ import os
 import pyperclip
 from pronounceable import PronounceableWord
 
-XMLInputPath = '/Users/jasonsteffener/Documents/GitHub/CognitiveTasksOnline/GUI'
+XMLInputPath = '/Users/jasonsteffener/Documents/GitHub/XMLtemp'
 XMLInputFile = 'items004.xml'
 fileName = os.path.join(XMLInputPath, XMLInputFile)
 print(os.path.exists(fileName))
@@ -87,4 +87,35 @@ def AddConnection(data, username, port, connectionName):
              user01level3d.text = 'VNCPASSWORD'
              
 
-   
+def MakeListOfUsedPorts(root):
+    PortList = []
+    for child in root.findall('authorize'):
+        # if this user is NOT on the authorizde list, find their port number
+        if not AuthList.loc[AuthList['Username'] == child.get('username')].shape[0] > 0:
+            for elem in child.findall('connection'):
+                for i in elem.findall('param'):
+                    n = i.get('name')
+                    if n == 'port':
+                        PortList.append(i.text)
+    return PortList
+
+def FindAvailablePorts(DesktopPortList, PortList):
+    AvailablePorts = []
+    for i in DesktopPortList:
+        if not i in PortList:
+            AvailablePorts.append(i)
+    return AvailablePorts
+
+for child in root.findall('authorize'):
+    print(child.get('username'))
+    
+    for elem in child.findall('connection'):
+        for i in elem.findall('param'):
+            n = i.get('name')
+            if n == 'port':
+                print(i.text)
+            
+
+def LoadAuthorizedUserList(fileName):
+    AuthList = pd.read_csv(fileName)
+    return AuthList
