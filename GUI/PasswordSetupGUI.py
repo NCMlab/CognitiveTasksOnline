@@ -1,13 +1,17 @@
 import wx 
 import xml.etree.ElementTree as ET
-from xml.etree import ElementTree
 from xml.dom import minidom
 import numpy as np
 import pandas as pd
 import shutil
 import os
-import pyperclip
+import sys
 from pronounceable import PronounceableWord
+
+XMLInputPath = '/etc/guacamole'
+XMLInputPath = '/Users/jasonsteffener/Documents/GitHub/XMLtemp'
+sys.path.insert(0,XMLInputPath)
+from GuacURL import *
 
 class Mywin(wx.Frame): 
             
@@ -24,17 +28,18 @@ class Mywin(wx.Frame):
       self.UserList = ''
       self.PasswordList = ''
       self.Selection = ''
-      self.XMLInputPath = '/Users/jasonsteffener/Documents/GitHub/XMLtemp'
-      self.XMLInputPath = '/etc/guacamole'
+      #self.XMLInputPath = '/Users/jasonsteffener/Documents/GitHub/XMLtemp'
+
       self.XMLInputFile = 'user-mapping.xml'
       self.AuthUserFile = 'AuthUser'
       self.VNCPassword = ''
-      self.GuacURL = '206-12-93-247.cloud.computecanada.ca:8080/guacamole'
+      
+      self.GuacURL = GuacURL
       # Create a connection list. These are all possible desktop connections
       # that are available. Essentially, these are the VNC connections
       self.DesktopPortList = ['5911','5912','5913','5914','5915']
       # Load up the authorized user list
-      self.LoadAuthorizedUserList(os.path.join(self.XMLInputPath,self.AuthUserFile))
+      self.LoadAuthorizedUserList(os.path.join(XMLInputPath,self.AuthUserFile))
       # Once the GUI is open. Check the user list and load it
       self.OnCickUpdateDisplayedList(0)
       # Make list of unused ports
@@ -79,7 +84,7 @@ class Mywin(wx.Frame):
       # Check to see if the internal list is empty
       # If it is, than load up the user login file
       if self.UserList == '':
-        [UserList, PasswordList] = self.ReadUsermapping(os.path.join(self.XMLInputPath, self.XMLInputFile))
+        [UserList, PasswordList] = self.ReadUsermapping(os.path.join(XMLInputPath, self.XMLInputFile))
         # Once the list has been updated store it in the self variable so it can 
         # be passed between functions
       else: 
@@ -140,8 +145,8 @@ class Mywin(wx.Frame):
             port = self.AvailablePorts[0]
             # Add connections
             self.XMLAddConnection(UserToAdd, port)
+            # When a user is added add their desktop access to all authorized users
       # Update the available ports list
-
       self.FindAvailablePorts(self.MakeListOfUsedPorts())
       # Update the list
       self.UpdateList()
@@ -183,7 +188,7 @@ class Mywin(wx.Frame):
    def SaveLoginFile(self, event):
         # Make a copy of the old XML file first
         BackupName = 'BACKUP_' + self.XMLInputFile
-        shutil.copy(os.path.join(self.XMLInputPath, self.XMLInputFile),os.path.join(self.XMLInputPath, BackupName))
+        shutil.copy(os.path.join(XMLInputPath, self.XMLInputFile),os.path.join(XMLInputPath, BackupName))
         
         self.WriteWithPrettify(self.XMLInputFile)
       
@@ -201,18 +206,14 @@ class Mywin(wx.Frame):
         return Password
     
    def WriteWithPrettify(self, fileName):
-       #self.XML.write(open(os.path.join(self.XMLInoutPath, fileName)),'wb')
-       # mydata = ET.tostring(self.XML)
-       # myfile = open(os.path.join(self.XMLInputPath, fileName),'wb')
-       # myfile.write(self.prettify(mydata))
        # Write out an XML file, making it pretty
-       with open(os.path.join(self.XMLInputPath,fileName), 'w') as output:
+       with open(os.path.join(XMLInputPath,fileName), 'w') as output:
              output.write(self.prettify(self.XML))
         # Clean up the XML file and remove the extra blank lines
-       with open(os.path.join(self.XMLInputPath,fileName)) as xmlfile:
+       with open(os.path.join(XMLInputPath,fileName)) as xmlfile:
            lines = [line for line in xmlfile if line.strip() != ""]
 
-       with open(os.path.join(self.XMLInputPath,fileName), "w") as xmlfile:
+       with open(os.path.join(XMLInputPath,fileName), "w") as xmlfile:
            xmlfile.writelines(lines)
 
    def prettify(self, elem):
@@ -244,23 +245,13 @@ class Mywin(wx.Frame):
     
        
    def RemoveAuthListFromInternalList(self):
-   	print("Checking Authorized List")
-   	print("User List Before")
-   	print(self.UserList)
-   	tempUserList=self.UserList
-   	for i in self.UserList:
-    # Is this an authorized user?
-            if self.CompareUserToAuthList(self.AuthList, i):
-                # If the user is an authorized user, find their index in the list
-                index = self.UserList.index(i)
-                # remove the user from the internal userlist
-                tempUserList.pop(index)
-                # and the internal password list
-                self.PasswordList.pop(index)
-        self.UserList = tempUserList
-    print("User List After")
-    print(self.UserList)
-        
+       for i in self.UserList:
+           # Is this an authorized user?
+           if self.AuthList.loc[self.AuthList['Username'] == i].shape[0] > 0:
+               # If the user is an authorized user, find their index in the list
+               self.UserList[self.UserList.index(i)] = 'XXXXX'
+       self.UserList = [k for k in self.UserList if not 'XXXXX' in k]       
+       
 
    def MakeListOfUsedPorts(self):
         PortList = []

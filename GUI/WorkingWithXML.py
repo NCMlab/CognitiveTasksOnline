@@ -119,3 +119,25 @@ for child in root.findall('authorize'):
 def LoadAuthorizedUserList(fileName):
     AuthList = pd.read_csv(fileName)
     return AuthList
+
+XMLInputPath = '/Users/jasonsteffener/Documents/GitHub/XMLtemp'
+AuthUserFile = 'AuthUser'
+AuthList = pd.read_csv(os.path.join(XMLInputPath,AuthUserFile))
+
+UserList = ['TestUser001', 'TestUser002', 'jason', 'Dylan', 'Li', 'jason2']
+
+
+for i in UserList:
+    # Is this an authorized user?
+    if AuthList.loc[AuthList['Username'] == i].shape[0] > 0:
+        # If the user is an authorized user, find their index in the list
+        UserList[UserList.index(i)] = 'XXXXX'
+[k for k in UserList if not 'XXXXX' in k]        
+
+print(tempUserList)
+
+
+[k for k in tempUserList if not 'XXXXX' in k]
+
+UserList = tempUserList
+print("User List After")
