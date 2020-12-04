@@ -208,7 +208,7 @@ class Mywin(wx.Frame):
              output.write(self.prettify(self.XML))
         # Clean up the XML file and remove the extra blank lines
        with open(os.path.join(self.XMLInputPath,fileName)) as xmlfile:
-           lines = [line for line in xmlfile if line.strip() is not ""]
+           lines = [line for line in xmlfile if line.strip() != ""]
 
        with open(os.path.join(self.XMLInputPath,fileName), "w") as xmlfile:
            xmlfile.writelines(lines)
@@ -316,7 +316,7 @@ class Mywin(wx.Frame):
                  user01level3c.text = port
                  user01level3d = ET.SubElement(user01level2, 'param')
                  user01level3d.set('name','password')
-                 user01level3d.text = 'VNCPASSWORD'
+                 user01level3d.text = self.VNCPassword
 
     
    def CloseGUI(self, event):
