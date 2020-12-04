@@ -25,10 +25,11 @@ class Mywin(wx.Frame):
       self.PasswordList = ''
       self.Selection = ''
       self.XMLInputPath = '/Users/jasonsteffener/Documents/GitHub/XMLtemp'
-      self.XMLInputFile = 'items004.xml'
+      self.XMLInputPath = '/etc/guacamole'
+      self.XMLInputFile = 'user-mapping.xml'
       self.AuthUserFile = 'AuthUser'
       self.VNCPassword = ''
-      self.GuacURL = '206.12.22'
+      self.GuacURL = '206-12-93-247.cloud.computecanada.ca:8080/guacamole'
       # Create a connection list. These are all possible desktop connections
       # that are available. Essentially, these are the VNC connections
       self.DesktopPortList = ['5911','5912','5913','5914','5915']
@@ -45,12 +46,12 @@ class Mywin(wx.Frame):
       # file. If it is not empty then just check the internal file.
       # self.btnPartEntry1 = wx.Button(panel,-1,label = "Check User List", pos = (100,0), size = ((200,50))) 
       # Make a subid text entry
-      self.PartID = wx.TextCtrl(panel,-1,'',size=(130,-1),pos = (190,45))
-      self.btnPartEntry3 = wx.Button(panel,-1,label = "Add User", pos = (100,30), size = ((80,50))) 
-      self.btnPartEntry2 = wx.Button(panel,-1,label = "Delete Selected User", pos = (100,60), size = ((200,50)))
-      self.btnPartEntry4 = wx.Button(panel,-1,label = "Save Login File", pos = (100,90), size = ((200,50))) 
-      self.btnPartEntry6 = wx.Button(panel,-1,label = "Create Login Text for User", pos = (100,120), size = ((200,50))) 
-      self.btnPartEntry5 = wx.Button(panel,-1,label = "Close", pos = (100,220), size = ((200,50))) 
+      self.PartID = wx.TextCtrl(panel,-1,'',size=(130,30),pos = (190,30))
+      self.btnPartEntry3 = wx.Button(panel,-1,label = "Add User", pos = (100,30), size = ((80,30))) 
+      self.btnPartEntry2 = wx.Button(panel,-1,label = "Delete Selected User", pos = (100,60), size = ((200,30)))
+      self.btnPartEntry4 = wx.Button(panel,-1,label = "Save Login File", pos = (100,90), size = ((200,30))) 
+      self.btnPartEntry6 = wx.Button(panel,-1,label = "Create Login Text for User", pos = (100,120), size = ((200,30))) 
+      self.btnPartEntry5 = wx.Button(panel,-1,label = "Close", pos = (100,220), size = ((200,30))) 
       
       
       
@@ -91,8 +92,9 @@ class Mywin(wx.Frame):
       # Once the list is loaded up, compare each item to teh auth user list
       # If someone is an authorized user then remove them from the list displayed
       self.RemoveAuthListFromInternalList()
+      print(self.UserList)
       # Write the user list to the GUI
-      self.lst.Set(UserList)
+      self.lst.Set(self.UserList)
       
    def UpdateList(self):
         # An internal function for updating the list displayed on the screen
@@ -242,16 +244,23 @@ class Mywin(wx.Frame):
     
        
    def RemoveAuthListFromInternalList(self):
-        for i in self.UserList:
-            # Is this an authorized user?
+   	print("Checking Authorized List")
+   	print("User List Before")
+   	print(self.UserList)
+   	tempUserList=self.UserList
+   	for i in self.UserList:
+    # Is this an authorized user?
             if self.CompareUserToAuthList(self.AuthList, i):
                 # If the user is an authorized user, find their index in the list
                 index = self.UserList.index(i)
                 # remove the user from the internal userlist
-                self.UserList.pop(index)
+                tempUserList.pop(index)
                 # and the internal password list
                 self.PasswordList.pop(index)
-        return self.UserList
+        self.UserList = tempUserList
+    print("User List After")
+    print(self.UserList)
+        
 
    def MakeListOfUsedPorts(self):
         PortList = []
