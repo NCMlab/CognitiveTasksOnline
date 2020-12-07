@@ -84,16 +84,16 @@ class Mywin(wx.Frame):
       # Check to see if the internal list is empty
       # If it is, than load up the user login file
       if self.UserList == '':
-        [UserList, PasswordList] = self.ReadUsermapping(os.path.join(XMLInputPath, self.XMLInputFile))
+        UserList = self.ReadUsermapping(os.path.join(XMLInputPath, self.XMLInputFile))
         # Once the list has been updated store it in the self variable so it can 
         # be passed between functions
       else: 
         UserList = self.UserList
-        PasswordList = self.PasswordList
+        # PasswordList = self.PasswordList
       print(UserList)
       self.UserList = UserList
-      self.PasswordList = PasswordList
-      print(PasswordList)
+      # self.PasswordList = PasswordList
+      # print(PasswordList)
       # Once the list is loaded up, compare each item to teh auth user list
       # If someone is an authorized user then remove them from the list displayed
       self.RemoveAuthListFromInternalList()
@@ -118,13 +118,14 @@ class Mywin(wx.Frame):
             index = self.UserList.index(self.Selection)
             username = self.UserList[index]
             self.UserList.remove(self.UserList[index])
-            self.PasswordList.remove(self.PasswordList[index])
+            # self.PasswordList.remove(self.PasswordList[index])
             self.UpdateList()
             # reset the internal selection variable
             self.Selection = ''
             # Remove from the XML
             self.XMLRemoveUser(username)
-
+            self.FindAvailablePorts(self.MakeListOfUsedPorts())
+            # Make sure to remove the connection for this port also
    
    def AddUser(self, event):
         # Check to see if anything has been entered
@@ -133,27 +134,46 @@ class Mywin(wx.Frame):
             wx.MessageBox('You need to enter a User ID', 'Warning',
                                      wx.OK | wx.ICON_WARNING)
       else:
-            # Add the new user to the list
-            self.UserList.append(UserToAdd)
-            # Create a Password
-            NewPassword = self.MakePassword()
-            self.PasswordList.append(NewPassword)
-            print(self.PasswordList)
-            # Add the user to the XML
-            self.XMLAddUser(UserToAdd, NewPassword)
-            # Find an unused port
-            port = self.AvailablePorts[0]
-            # Add connections
-            self.XMLAddConnection(UserToAdd, port)
+          # Check to see if there are any ports avalable.
+          # If not then a user cannot be added
+            if len(self.AvailablePorts) > 0:
+                # Add the new user to the list
+                self.UserList.append(UserToAdd)
+                # Create a Password
+                NewPassword = self.MakePassword()
+                # self.PasswordList.append(NewPassword)
+                # print(self.PasswordList)
+                
+                # Find an unused port
+                port = self.AvailablePorts[0]
+                print(port)
+                # Add the user to the XML
+                self.XMLAddUser(UserToAdd, NewPassword)
+                
+                # Add connections
+                connectionName = UserToAdd+'_'+port
+                self.XMLAddConnection(UserToAdd, port, connectionName)
+                self.AddNewConnectionToAuthUsers(port, connectionName)
+                self.FindAvailablePorts(self.MakeListOfUsedPorts())
+                print(self.MakeListOfUsedPorts())
+            else:
+                wx.MessageBox('Sorry, there are not available ports! Try removing a user', 'Warning',
+                                     wx.OK | wx.ICON_WARNING)
+            
             # When a user is added add their desktop access to all authorized users
       # Update the available ports list
-      self.FindAvailablePorts(self.MakeListOfUsedPorts())
+      
       # Update the list
       self.UpdateList()
       # Reset the text entry 
       self.PartID.SetValue('')
       
-            
+   def AddNewConnectionToAuthUsers(self, port, connectionName):
+       print("adding new users connection to Auth users also")
+       for i in self.AuthList['Username']:
+           print("adding to %s"%(i))
+           self.XMLAddConnection(i, port, connectionName)   
+           
    def onListBox(self, event):
         # Get the selected user from the list
       Selection = event.GetEventObject().GetStringSelection()
@@ -173,17 +193,17 @@ class Mywin(wx.Frame):
         NUsers = len(root)
         # Make list of user mappings
         UserList = []
-        PasswordList = []
+        # PasswordList = []
         for i in range(NUsers):
             UserList.append(root[i].attrib['username'])
-            PasswordList.append(root[i].attrib['password'])
+            # PasswordList.append(root[i].attrib['password'])
             
         # print(UserList)
         # print(PasswordList)
         print(self.VNCPassword)
         # Save the root XML to self so it can be used
         self.XML = root
-        return UserList, PasswordList
+        return UserList
    
    def SaveLoginFile(self, event):
         # Make a copy of the old XML file first
@@ -224,12 +244,14 @@ class Mywin(wx.Frame):
         return reparsed.toprettyxml(indent="  ")
 
    def MakeEmail(self, event):
+       # Change this so that it reads the XML instead of an internal list
+       # This way an internal list is not stored and worked with
        if self.Selection != '':
-            index = self.UserList.index(self.Selection)
+            username = self.Selection
             Str = "Please visit the site: %s \n"%(self.GuacURL)
             Str = Str + "Use the following login and password for access\n"
-            Str = Str + "Username: %s \n"%(self.UserList[index])
-            Str = Str + "Password: %s \n"%(self.PasswordList[index])
+            Str = Str + "Username: %s \n"%(username)
+            Str = Str + "Password: %s \n"%(self.XMLFindUserPassword(username))
             wx.MessageBox(Str, 'Login Information',
                                      wx.OK | wx.ICON_WARNING)
           
@@ -273,6 +295,13 @@ class Mywin(wx.Frame):
                 AvailablePorts.append(i)
         self.AvailablePorts = AvailablePorts
          
+   def XMLFindUserPassword(self, username):
+    for child in self.XML.findall('authorize'):
+        n = child.get('username')
+        if n == username:
+            pw = child.get('password')
+    return pw
+
    def XMLAddUser(self, username, password):
          # Create the authorization for a GUAC user.
          # Note the hardcoded VNC password!
@@ -297,9 +326,8 @@ class Mywin(wx.Frame):
                     child.remove(elem)
     
                      
-   def XMLAddConnection(self, username, port):
+   def XMLAddConnection(self, username, port, connectionName):
         # Once a user is made, add connections to it
-        connectionName = username+'_'+port
         for child in self.XML.findall('authorize'):
             n = child.get('username')
             if n == username:

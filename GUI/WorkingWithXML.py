@@ -16,7 +16,7 @@ import pyperclip
 from pronounceable import PronounceableWord
 
 XMLInputPath = '/Users/jasonsteffener/Documents/GitHub/XMLtemp'
-XMLInputFile = 'items004.xml'
+XMLInputFile = 'user-mapping.xml'
 fileName = os.path.join(XMLInputPath, XMLInputFile)
 print(os.path.exists(fileName))
 tree = ET.parse(fileName)
@@ -141,3 +141,11 @@ print(tempUserList)
 
 UserList = tempUserList
 print("User List After")
+
+def FindUser(username):
+    for child in root.findall('authorize'):
+        n = child.get('username')
+        if n == username:
+            pw = child.get('password')
+            
+    return pw
