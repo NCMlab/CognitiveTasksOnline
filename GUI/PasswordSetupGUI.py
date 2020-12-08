@@ -62,7 +62,7 @@ class Mywin(wx.Frame):
       
       # Bind the button to a function and pass a list to it
       # self.Bind(wx.EVT_BUTTON, lambda event: self.OnCickUpdateDisplayedList(event), self.btnPartEntry1)
-      self.btnPartEntry2.Bind(wx.EVT_BUTTON, self.RemoveSelection)
+      self.btnPartEntry2.Bind(wx.EVT_BUTTON, self.RemoveUser)
       self.btnPartEntry3.Bind(wx.EVT_BUTTON, self.AddUser)
       self.btnPartEntry4.Bind(wx.EVT_BUTTON, self.SaveLoginFile)
       self.btnPartEntry5.Bind(wx.EVT_BUTTON, self.CloseGUI)
@@ -105,7 +105,7 @@ class Mywin(wx.Frame):
         # An internal function for updating the list displayed on the screen
       self.lst.Set(self.UserList)
       
-   def RemoveSelection(self, event):
+   def RemoveUser(self, event):
       # Remove the selected item from the list
       # Check to see if anything is selected
       if self.Selection != '':
@@ -116,18 +116,30 @@ class Mywin(wx.Frame):
             # remove the item
             # Find where in the list the item is
             index = self.UserList.index(self.Selection)
+            # Fin dthe selected username
             username = self.UserList[index]
+            # remove them from the internal list
             self.UserList.remove(self.UserList[index])
-            # self.PasswordList.remove(self.PasswordList[index])
+            # update the screen
             self.UpdateList()
             # reset the internal selection variable
             self.Selection = ''
-            # Remove from the XML
+            # Find this users connection name
+            connectionName = self.XMLFindConnectionName(username)
+            # Remove this connection for everyone
+            self.XMLRemoveConnection(connectionName)
+            # Remove user from the XML
             self.XMLRemoveUser(username)
+<<<<<<< Updated upstream
             
             self.FindAvailablePorts(self.MakeListOfUsedPorts())
             
             # Make sure to remove the connection for this port also
+=======
+            # Cycle over authorized users
+            self.FindAvailablePorts(self.MakeListOfUsedPorts())
+
+>>>>>>> Stashed changes
    
    def AddUser(self, event):
         # Check to see if anything has been entered
@@ -348,7 +360,18 @@ class Mywin(wx.Frame):
                  user01level3d.set('name','password')
                  user01level3d.text = self.VNCPassword
 
-    
+   def XMLFindConnectionName(self, userName):
+       # Find the user
+       for child in self.root.findall('authorize'):
+           tempUser  = child.get('username')
+           if tempUser == userName:
+               # Find their connection name
+               # This assumes each user has one connection
+               for elem in child.findall('connection'):
+                   ConnectionName = elem.get('name')
+       return ConnectionName
+             
+             
    def CloseGUI(self, event):
        self.Close()
 
