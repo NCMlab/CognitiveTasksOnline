@@ -130,17 +130,10 @@ class Mywin(wx.Frame):
             self.XMLRemoveConnection(connectionName)
             # Remove user from the XML
             self.XMLRemoveUser(username)
-<<<<<<< Updated upstream
-            
-            self.FindAvailablePorts(self.MakeListOfUsedPorts())
-            
-            # Make sure to remove the connection for this port also
-=======
-            # Cycle over authorized users
+            # update the available ports list
             self.FindAvailablePorts(self.MakeListOfUsedPorts())
 
->>>>>>> Stashed changes
-   
+
    def AddUser(self, event):
         # Check to see if anything has been entered
       UserToAdd = self.PartID.GetValue()
@@ -362,7 +355,7 @@ class Mywin(wx.Frame):
 
    def XMLFindConnectionName(self, userName):
        # Find the user
-       for child in self.root.findall('authorize'):
+       for child in self.XML.findall('authorize'):
            tempUser  = child.get('username')
            if tempUser == userName:
                # Find their connection name
