@@ -9,7 +9,7 @@ import sys
 from pronounceable import PronounceableWord
 
 XMLInputPath = '/etc/guacamole'
-XMLInputPath = '/Users/jasonsteffener/Documents/GitHub/XMLtemp'
+# XMLInputPath = '/Users/jasonsteffener/Documents/GitHub/XMLtemp'
 sys.path.insert(0,XMLInputPath)
 from GuacURL import *
 
