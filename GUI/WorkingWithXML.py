@@ -12,8 +12,7 @@ import numpy as np
 import pandas as pd
 import shutil
 import os
-import pyperclip
-from pronounceable import PronounceableWord
+
 
 XMLInputPath = '/Users/jasonsteffener/Documents/GitHub/XMLtemp'
 XMLInputFile = 'user-mapping.xml'

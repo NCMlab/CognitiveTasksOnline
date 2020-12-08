@@ -124,7 +124,9 @@ class Mywin(wx.Frame):
             self.Selection = ''
             # Remove from the XML
             self.XMLRemoveUser(username)
+            
             self.FindAvailablePorts(self.MakeListOfUsedPorts())
+            
             # Make sure to remove the connection for this port also
    
    def AddUser(self, event):
