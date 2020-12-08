@@ -370,5 +370,5 @@ class Mywin(wx.Frame):
 
     
 ex = wx.App() 
-s = Mywin(None,'ListBox Demo') 
+s = Mywin(None,'LLogin Control') 
 ex.MainLoop()
