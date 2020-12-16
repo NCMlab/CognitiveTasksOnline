@@ -365,9 +365,41 @@ class Mywin(wx.Frame):
        return ConnectionName
              
              
+   def EmailLoginInstructions(self):
+        # Ask for email address
+        # Ask for email password
+        dlg = PasswordDialog(MyGui)
+        dlg.ShowModal()
+        print(dlg.result)
+        #      # dlg.result is now set to 'None' if the user cancelled, else to
+
+        
+        
+    
    def CloseGUI(self, event):
+       self.EmailLoginInstructions()
        self.Close()
 
+
+class PasswordDialog(wx.Dialog):
+    def __init__(self, parent, id=-1, title="Enter password"):
+        wx.Dialog.__init__(self, parent, id, title, size=(320, 160))
+        self.mainSizer = wx.BoxSizer(wx.VERTICAL)
+        self.buttonSizer = wx.BoxSizer(wx.HORIZONTAL)
+        self.label = wx.StaticText(self, label="Enter password:")
+        self.field = wx.TextCtrl(self, value="", size=(300, 20), style=wx.TE_PASSWORD|wx.TE_PROCESS_ENTER)
+        self.okbutton = wx.Button(self, label="OK", id=wx.ID_OK)
+        self.cancelbutton = wx.Button(self, label="Cancel", id=wx.ID_CANCEL)
+        self.mainSizer.Add(self.label, 0, wx.ALL, 8 )
+        self.mainSizer.Add(self.field, 0, wx.ALL, 8 )
+        self.buttonSizer.Add(self.okbutton, 0, wx.ALL, 8 )
+        self.buttonSizer.Add(self.cancelbutton, 0, wx.ALL, 8 )
+        self.mainSizer.Add(self.buttonSizer, 0, wx.ALL, 0)
+        self.Bind(wx.EVT_BUTTON, self.onOK, id=wx.ID_OK)
+        self.Bind(wx.EVT_BUTTON, self.onCancel, id=wx.ID_CANCEL)
+        self.Bind(wx.EVT_TEXT_ENTER, self.onOK)
+        self.SetSizer(self.mainSizer)
+        self.result = None
     
 ex = wx.App() 
 s = Mywin(None,'Login Control') 
