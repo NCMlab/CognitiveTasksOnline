@@ -216,7 +216,7 @@ image = visual.ImageStim(
     win=win,
     name='image', 
     image='../GUI/YesNoKeyboard.png', mask=None,
-    ori=0, pos=(0, -300), size=(200,136),
+    ori=0, pos=(450, -300), size=(200,136),
     color=[1,1,1], colorSpace='rgb', opacity=1,
     flipHoriz=False, flipVert=False,
     texRes=128, interpolate=True, depth=0.0)   

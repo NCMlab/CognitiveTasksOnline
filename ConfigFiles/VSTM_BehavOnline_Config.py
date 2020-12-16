@@ -8,7 +8,7 @@ VSTM_FontSize = 60
 VSTM_FontSizeUnits = 'pix'
 VSTM_BGColor = 'grey'
 VSTM_FontColor = 'white'
-VSTM_GridSizeScale = 39#52
+VSTM_GridSizeScale = 52
 
 # The circles are presented in a grid. The next parameter sets the number of circles
 # in the grid. If VSTM_GridCount is 6, then there will be a 6 by 6 grid of circles.
