@@ -7,7 +7,7 @@ import shutil
 import os
 import sys
 from pronounceable import PronounceableWord
-
+import smtplib, ssl
 XMLInputPath = '/etc/guacamole'
 # XMLInputPath = '/Users/jasonsteffener/Documents/GitHub/XMLtemp'
 sys.path.insert(0,XMLInputPath)
@@ -55,7 +55,7 @@ class Mywin(wx.Frame):
       self.btnPartEntry3 = wx.Button(panel,-1,label = "Add User", pos = (100,30), size = ((80,30))) 
       self.btnPartEntry2 = wx.Button(panel,-1,label = "Delete Selected User", pos = (100,60), size = ((200,30)))
       self.btnPartEntry4 = wx.Button(panel,-1,label = "Save Login File", pos = (100,90), size = ((200,30))) 
-      self.btnPartEntry6 = wx.Button(panel,-1,label = "Create Login Text for User", pos = (100,120), size = ((200,30))) 
+      self.btnPartEntry6 = wx.Button(panel,-1,label = "Send Login Text to User", pos = (100,120), size = ((200,30))) 
       self.btnPartEntry5 = wx.Button(panel,-1,label = "Close", pos = (100,220), size = ((200,30))) 
       
       
@@ -66,7 +66,7 @@ class Mywin(wx.Frame):
       self.btnPartEntry3.Bind(wx.EVT_BUTTON, self.AddUser)
       self.btnPartEntry4.Bind(wx.EVT_BUTTON, self.SaveLoginFile)
       self.btnPartEntry5.Bind(wx.EVT_BUTTON, self.CloseGUI)
-      self.btnPartEntry6.Bind(wx.EVT_BUTTON, self.MakeEmail)
+      self.btnPartEntry6.Bind(wx.EVT_BUTTON, self.SendEmail)
       
       # Bind an action to the list box
       self.Bind(wx.EVT_LISTBOX, self.onListBox, self.lst) 
@@ -250,7 +250,7 @@ class Mywin(wx.Frame):
         reparsed = minidom.parseString(rough_string)
         return reparsed.toprettyxml(indent="  ")
 
-   def MakeEmail(self, event):
+   def MakeEmail(self):
        # Change this so that it reads the XML instead of an internal list
        # This way an internal list is not stored and worked with
        if self.Selection != '':
@@ -261,6 +261,7 @@ class Mywin(wx.Frame):
             Str = Str + "Password: %s \n"%(self.XMLFindUserPassword(username))
             wx.MessageBox(Str, 'Login Information',
                                      wx.OK | wx.ICON_WARNING)
+       return Str
           
    def LoadAuthorizedUserList(self, fileName):
        self.AuthList = pd.read_csv(fileName)
@@ -363,21 +364,29 @@ class Mywin(wx.Frame):
                for elem in child.findall('connection'):
                    ConnectionName = elem.get('name')
        return ConnectionName
+   
+   def SendEmail(self, event):
+        port = 465
+        smtp_server = "smtp.gmail.com"
+        sender_email = "neural.cognitive.mapping@gmail.com"
+        dlgEmail = EmailDialog(s)
+        dlgEmail.ShowModal()
+        receiver_email = dlgEmail.result
+        # ask the user about the email password
+        dlgPass = PasswordDialog(s)
+        dlgPass.ShowModal()
+        password = dlgPass.result
+        message = """\
+        Subject: NCMLab login instructions
+        %s
+        """%(self.MakeEmail(1))
+        context = ssl.create_default_context()
+        with smtplib.SMTP_SSL(smtp_server, port, context = context) as server:
+            server.login(sender_email, password)
+            server.sendmail(sender_email, receiver_email, message)
              
-             
-   def EmailLoginInstructions(self):
-        # Ask for email address
-        # Ask for email password
-        dlg = PasswordDialog(MyGui)
-        dlg.ShowModal()
-        print(dlg.result)
-        #      # dlg.result is now set to 'None' if the user cancelled, else to
-
-        
-        
     
    def CloseGUI(self, event):
-       self.EmailLoginInstructions()
        self.Close()
 
 
@@ -401,6 +410,39 @@ class PasswordDialog(wx.Dialog):
         self.SetSizer(self.mainSizer)
         self.result = None
     
+    def onOK(self, event):
+        self.result = self.field.GetValue()
+        self.Destroy()
+
+    def onCancel(self, event):
+        self.Destroy()      
+        
+class EmailDialog(wx.Dialog):
+    def __init__(self, parent, id=-1, title="Enter email"):
+        wx.Dialog.__init__(self, parent, id, title, size=(320, 160))
+        self.mainSizer = wx.BoxSizer(wx.VERTICAL)
+        self.buttonSizer = wx.BoxSizer(wx.HORIZONTAL)
+        self.label = wx.StaticText(self, label="Enter email:")
+        self.field = wx.TextCtrl(self, value="", size=(300, 20))
+        self.okbutton = wx.Button(self, label="OK", id=wx.ID_OK)
+        self.cancelbutton = wx.Button(self, label="Cancel", id=wx.ID_CANCEL)
+        self.mainSizer.Add(self.label, 0, wx.ALL, 8 )
+        self.mainSizer.Add(self.field, 0, wx.ALL, 8 )
+        self.buttonSizer.Add(self.okbutton, 0, wx.ALL, 8 )
+        self.buttonSizer.Add(self.cancelbutton, 0, wx.ALL, 8 )
+        self.mainSizer.Add(self.buttonSizer, 0, wx.ALL, 0)
+        self.Bind(wx.EVT_BUTTON, self.onOK, id=wx.ID_OK)
+        self.Bind(wx.EVT_BUTTON, self.onCancel, id=wx.ID_CANCEL)
+        self.Bind(wx.EVT_TEXT_ENTER, self.onOK)
+        self.SetSizer(self.mainSizer)
+        self.result = None
+    
+    def onOK(self, event):
+        self.result = self.field.GetValue()
+        self.Destroy()
+
+    def onCancel(self, event):
+        self.Destroy()  
 ex = wx.App() 
 s = Mywin(None,'Login Control') 
 ex.MainLoop()

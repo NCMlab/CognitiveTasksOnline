@@ -1,1 +1,1 @@
-NeuropsychDataFolder = '/home/vncuser/Documents/NeuroPsychData'
+NeuropsychDataFolder = '/home/vncuser/Documents/RawData'
