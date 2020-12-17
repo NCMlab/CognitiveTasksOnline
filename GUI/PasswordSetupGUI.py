@@ -8,6 +8,8 @@ import os
 import sys
 from pronounceable import PronounceableWord
 import smtplib, ssl
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 XMLInputPath = '/etc/guacamole'
 # XMLInputPath = '/Users/jasonsteffener/Documents/GitHub/XMLtemp'
 sys.path.insert(0,XMLInputPath)
@@ -365,27 +367,34 @@ class Mywin(wx.Frame):
                    ConnectionName = elem.get('name')
        return ConnectionName
    
+             
    def SendEmail(self, event):
-        port = 465
+        port = 587
         smtp_server = "smtp.gmail.com"
         sender_email = "neural.cognitive.mapping@gmail.com"
-        dlgEmail = EmailDialog(s)
+        
+        dlgEmail = EmailDialog(MainWIndow)
         dlgEmail.ShowModal()
         receiver_email = dlgEmail.result
+
         # ask the user about the email password
-        dlgPass = PasswordDialog(s)
+        dlgPass = PasswordDialog(MainWIndow)
         dlgPass.ShowModal()
         password = dlgPass.result
-        message = """\
-        Subject: NCMLab login instructions
-        %s
-        """%(self.MakeEmail(1))
-        context = ssl.create_default_context()
-        with smtplib.SMTP_SSL(smtp_server, port, context = context) as server:
-            server.login(sender_email, password)
-            server.sendmail(sender_email, receiver_email, message)
-             
-    
+
+        # Make the email message text
+        msg = MIMEText(self.MakeEmail())
+        
+        msg['From'] = sender_email
+        msg['To'] = receiver_email
+        msg['Subject'] = "NCMLab Login Instructions"
+        
+        s = smtplib.SMTP(smtp_server, port)
+        s.starttls()
+        s.login(sender_email, password)
+        s.send_message(msg)
+        s.quit()
+            
    def CloseGUI(self, event):
        self.Close()
 
@@ -444,5 +453,5 @@ class EmailDialog(wx.Dialog):
     def onCancel(self, event):
         self.Destroy()  
 ex = wx.App() 
-s = Mywin(None,'Login Control') 
+MainWIndow = Mywin(None,'Login Control') 
 ex.MainLoop()
