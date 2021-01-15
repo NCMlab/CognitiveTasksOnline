@@ -454,4 +454,5 @@ class EmailDialog(wx.Dialog):
         self.Destroy()  
 ex = wx.App() 
 MainWIndow = Mywin(None,'Login Control') 
+
 ex.MainLoop()
