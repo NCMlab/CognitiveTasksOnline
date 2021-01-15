@@ -70,13 +70,28 @@ print(filename)
 # The number of trials, or repeats
 NBlocks = 1
 # Define how the words should appear on the screen
-GridWidth = 300
-GridHeight = 300
-NRows = 6
-NCols = 3
+#GridWidth = 300
+#GridHeight = 300
+#NRows = 6
+#NCols = 3
+#FontSize = 30
+#WordColor = 'white'
+#SelectedColor = 'blue'
+GridWidth = 800
+GridHeight = 80
+GridHeightOffset = -250
+GridWidthOffset = 100
+RemainingTimeTextPositionX = -300
+RemainingTimeTextPositionY = -350
+WordPositionX = 0
+WordPositionY = 100
+NRows = 3
+NCols = 6
 FontSize = 30
 WordColor = 'white'
 SelectedColor = 'blue'
+
+
 
 
 #BGColor = 'grey'
@@ -121,7 +136,7 @@ instr = visual.TextStim(win=win, name='instr',
     text=u'Please think back to the list of words you studied before.\nYou will have to recall as many of the words as you can in 1 minute by speaking them out loud.\n\nPress [return] to begin',
    # For those items that were not recalled during the current trial, the words will be repeated and you  \nare to again recall as many of the original list words as they can. \nThis procedure is repeated for 5 trials.\n \nPress [return] to begin',
     font=u'Arial',
-    units='pix', pos=(0, 0), height=35, wrapWidth=900, ori=0, 
+    units='pix', pos=(0, WordPositionY), height=35, wrapWidth=900, ori=0, 
     color=u'white', colorSpace='rgb', opacity=1,
     depth=0.0);
 
@@ -130,28 +145,28 @@ trialClock = core.Clock()
 text = visual.TextStim(win=win, name='text',
     text='default text',
     font=u'Arial',
-    units='pix', pos=(0, 0), height=45, wrapWidth=None, ori=0, 
+    units='pix', pos=(0, WordPositionY), height=45, wrapWidth=None, ori=0, 
     color=u'white', colorSpace='rgb', opacity=1,
     depth=0.0);
 
 CrossHair = visual.TextStim(win=win, name='CrossHair1',
     text='+',
     font=u'Arial',
-    units='pix', pos=(0, 0), height=45, wrapWidth=None, ori=0, 
+    units='pix', pos=(0, WordPositionY), height=45, wrapWidth=None, ori=0, 
     color=u'white', colorSpace='rgb', opacity=1,
     depth=0.0);
 
 WaitText1 = visual.TextStim(win=win, name='text',
     text='Please turn the computer to your tester.\n\nPress [return] to start recall and scoring',
     font=u'Arial',
-    units='pix', pos=(0, 0), height=45, wrapWidth=None, ori=0, 
+    units='pix', pos=(0, WordPositionY), height=45, wrapWidth=None, ori=0, 
     color=u'white', colorSpace='rgb', opacity=1,
     depth=0.0);
     
 WaitText2 = visual.TextStim(win=win, name='text',
     text='Please turn the computer to the participant.\n\nPress [return] to start the next trial.',
     font=u'Arial',
-    units='pix', pos=(0, 0), height=45, wrapWidth=None, ori=0, 
+    units='pix', pos=(0, WordPositionY), height=45, wrapWidth=None, ori=0, 
     color=u'white', colorSpace='rgb', opacity=1,
     depth=0.0);    
     
@@ -161,7 +176,7 @@ EnterResponsesClock = core.Clock()
 ResponseText = visual.TextStim(win=win, name='text_2',
     text=u'Please repeat the entire word list',
     font=u'Arial',
-    units='pix', pos=(0, 0), height=45, wrapWidth=None, ori=0, 
+    units='pix', pos=(0, WordPositionY), height=45, wrapWidth=None, ori=0, 
     color=u'white', colorSpace='rgb', opacity=1,
     depth=0.0);
 # Get the count down clock going
@@ -169,16 +184,23 @@ countDownStarted = False
 ResponseTimer = visual.TextStim(win=win, name='ResponseTimer',
     text='default text',
     font=u'Arial',
-    units='pix', pos=(40, -300), height=30, wrapWidth=None, ori=0, 
+    units='pix', pos=(40, RemainingTimeTextPositionY), height=30, wrapWidth=None, ori=0, 
     color=u'white', colorSpace='rgb', opacity=1,
     depth=-4.0);
     
 RemainingTime = visual.TextStim(win=win, name='RemainingTime',
     text=u'Remaining Time:',
     font=u'Arial',
-    units='pix', pos=(-100, -300), height=30, wrapWidth=None, ori=0, 
+    units='pix', pos=(RemainingTimeTextPositionX, RemainingTimeTextPositionY), height=30, wrapWidth=None, ori=0, 
     color=u'white', colorSpace='rgb', opacity=1,
     depth=-5.0);    
+    
+PleaseRecallText = visual.TextStim(win=win, name='PleaseRecallText',
+    text=u'Please Recall Words',
+    font=u'Arial',
+    units='pix', pos=(0, WordPositionY), height=30, wrapWidth=None, ori=0, 
+    color=u'white', colorSpace='rgb', opacity=1,
+    depth=-5.0);      
 # Initialize components for Routine "Wait"
 WaitClock = core.Clock()
 
@@ -188,20 +210,21 @@ ThankYouClock = core.Clock()
 textThankyou = visual.TextStim(win=win, name='Thanks',
     text=u'Thank You',
     font=u'Arial',
-    units='pix', pos=(0, 0), height=45, wrapWidth=None, ori=0, 
+    units='pix', pos=(0, WordPositionY), height=45, wrapWidth=None, ori=0, 
     color=u'white', colorSpace='rgb', opacity=1,
     depth=0.0);
 
 TrialCountText = visual.TextStim(win=win, name='TrialCount',
     text=u'Trial Count',
     font=u'Arial',
-    units='pix', pos=(200, -300), height=30, wrapWidth=None, ori=0, 
+    units='pix', pos=(200, RemainingTimeTextPositionY), height=30, wrapWidth=None, ori=0, 
     color=u'white', colorSpace='rgb', opacity=1,
     depth=0.0);
 # ##############################
 
 # Make lists of screen locations for the words
-ColLocsList, RowLocsList = SRT.MakeGridOfSRTWords(GridWidth, GridHeight, NCols, NRows)
+#ColLocsList, RowLocsList = SRT.MakeGridOfSRTWords(GridWidth, GridHeight, NCols, NRows)
+ColLocsList, RowLocsList = SRT.MakeGridOfSRTWords(GridWidth, GridHeight, NCols, NRows, GridHeightOffset)
 
 
 # Load up the list of words used for scoring. The only difference is that this list has 
@@ -486,7 +509,7 @@ BlockCount = 0
 #        pass       
 # Put all the words on the screen and have the tester click the recalled words and enter any intrusions
 TrialCountText.text = 'Delayed Recall'
-WordListObjects, mouse, RecallList, RecallOrder = SRT.PresentWordSelection(WordListObjects, trialClock, mouse, event, endExpNow, win, core, NWords, ResponseTimer, RemainingTime, TrialCountText)
+WordListObjects, mouse, RecallList, RecallOrder = SRT.PresentWordSelection(WordListObjects, trialClock, mouse, event, endExpNow, win, core, NWords, ResponseTimer, RemainingTime, TrialCountText,PleaseRecallText)
 
 print("Recall List:")
 print(RecallList)
