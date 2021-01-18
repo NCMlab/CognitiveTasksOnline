@@ -19,9 +19,9 @@ VSTM_StimOnTime = 2.5 # How long the circles are on the screen
 # The following is for the visual mask
 VSTM_MaskOnTime = 0.3 # How long the complete grid of circles are on the screen.
 VSTM_RetOnTime = 3.2 # How long is the retention period
-VSTM_ProbeOnTime = 5 # How long does the person have to respond
+VSTM_ProbeOnTime = 10 # How long does the person have to respond
 # This is the intertrial interval. This experimental component is part of the trial.
-VSTM_ITITime = 1.0 #1.0
+VSTM_ITITime = 1.5 #1.0
 # This is the time between blocks. Note that between each block of trials there
 # is also the 3-2-1 countdown. Therefore, the full interblock interval is this value PLUS 
 # the countdown time, which is 3 seconds.

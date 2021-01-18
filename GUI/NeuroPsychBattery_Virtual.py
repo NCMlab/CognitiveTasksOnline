@@ -629,7 +629,7 @@ class Mywin(wx.Frame):
       # self.VSTMBlockLoadLevels = self.CreateVSTMList5(self.VSTMCapacity)
       # print('With a capacity of %0.1f, the load levels will be:'%(float(self.VSTMCapacity)))
       print(self.VSTMBlockLoadLevels)
-      core.shellCall([sys.executable, "../VSTMPsychopyFiles/VSTM_PassConfigFile.py", self.PartID.GetValue(), self.VisitFolderPath, self.VSTMBlockLoadLevels, 'BehRun%d'%(self.VSTMTag),'VSTM_Behav_Config','True'])  
+      core.shellCall([sys.executable, "../VSTMPsychopyFiles/VSTM_PassConfigFile.py", self.PartID.GetValue(), self.VisitFolderPath, self.VSTMBlockLoadLevels, 'BehRun%d'%(self.VSTMTag),'VSTM_BehavOnline_Config','True'])  
       #core.shellCall([sys.executable, "../VSTMPsychopyFiles/VSTM_CirclesInGrid_v6.py", self.PartID.GetValue(), self.VisitFolderPath, self.VSTMBlockLoadLevels, 'BehRun%d'%(self.VSTMTag)])  
       self.cbR3C4.SetValue(True)  
 

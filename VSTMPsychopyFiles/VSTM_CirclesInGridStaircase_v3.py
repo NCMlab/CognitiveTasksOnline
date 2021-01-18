@@ -435,6 +435,8 @@ for thisStep in staircase:
     RedCross.setAutoDraw(True)
     # take the dot off the screen
     win.flip()
+    # Remove any time left on the clock
+    countDown.add(-1*countDown.getTime())
     countDown.add(ITITime)
     while countDown.getTime() > 0:
         pass

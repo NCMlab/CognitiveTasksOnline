@@ -21,10 +21,10 @@ SoundPath = os.path.join('CompanionFolderForCognitiveTasks','SRT','SoundFiles')
 # VSTM Tasks
 StimOnTime = 2.5
 RetOnTime = 3.2
-ProbeOnTime= 2.5
+ProbeOnTime = 10
 MaskOnTime = 0.3
 # This is the intertrial interval. This experimental component is part of the trial.
-ITITime = 1.0 #1.0
+ITITime = 1.5 #1.0
 
 GridCount = 6 # Number of circles to have on each row
 GridSize = 52*GridCount + 1 # The size of the grid for which the circles on on

@@ -487,8 +487,11 @@ for thisBlock in Blocks:
         image.setAutoDraw(False)
         RedCross.setAutoDraw(True)
         win.flip()
-        while countDown.getTime() > 0:    
-            pass
+        # Check to see how much time is left after a response is made
+        # Remove that amount from the clock
+        countDown.add(-1*countDown.getTime())
+        #while countDown.getTime() > 0:    
+        #    pass
         # prepare the cross hair
 
         countDown.add(VSTM_ITITime)
