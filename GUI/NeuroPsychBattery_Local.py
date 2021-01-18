@@ -320,7 +320,7 @@ class Mywin(wx.Frame):
       
       self.Centre() 
       self.Show() 
-      self.ShowFullScreen(True)
+      self.ShowFullScreen(False)
       #self.Fit()  
 
    def TESTGUI(self, event):
